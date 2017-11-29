@@ -1,5 +1,6 @@
 import {Component} from 'react';
 import PropTypes from 'prop-types';
+import {Handler} from './handler';
 import {GridEditor} from './grid-editor';
 import * as mobx from 'mobx';
 
@@ -8,7 +9,7 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.observe(props.value);
-        this.handler = new EditorHandler(props.value);
+        this.handler = new Handler(props.value);
     }
 
     observe(value) {
@@ -30,12 +31,5 @@ class Editor extends Component {
 Editor.childContextTypes = {
     handler: PropTypes.object
 };
-
-class EditorHandler {
-    constructor(value) {
-        this.value = value;
-    }
-}
-
 
 export {Editor, GridEditor};

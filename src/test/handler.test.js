@@ -7,7 +7,7 @@ import {expect} from 'chai';
 
 describe('GridEditor', () => {
 
-    it('renders rows and columns', () => {
+    it('can undo changes', () => {
         const NameColumn = (props) => {
             const {value: sprint} = props;
             return (
