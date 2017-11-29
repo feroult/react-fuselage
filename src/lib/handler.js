@@ -1,7 +1,9 @@
+import * as mobx from 'mobx';
+
 class Handler {
     constructor(value) {
         this.value = value;
-        this.undoHandler = new UndoHandler();
+        this.undoHandler = new UndoHandler(this);
     }
 
     handleShortcuts(e) {
@@ -23,9 +25,34 @@ class KeyDetector {
 }
 
 class UndoHandler {
-    undo(e) {
-        console.log('undo', e);
+
+    constructor(handler) {
+        this.handler = handler;
+        this.startTracking();
     }
+
+    get valueJson() {
+        return JSON.stringify(this.handler.value);
+    }
+
+    pushUndo(valueJson) {
+        this.undo = this.undo || [];
+        this.undo.push(valueJson);
+        this.redo = [];
+    }
+
+    startTracking() {
+        this.pushUndo(this.valueJson);
+
+        this.removeTracker =
+            mobx.reaction(
+                () => this.valueJson,
+                (valueJson) => {
+                    this.pushUndo(valueJson);
+                });
+    }
+
 }
+
 
 export {Handler};
