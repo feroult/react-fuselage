@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import {Editor, GridEditor} from '../lib/editor';
 
 import './helper';
@@ -8,7 +7,7 @@ import {expect} from 'chai';
 
 describe('GridEditor', () => {
 
-    xit('renders rows and columns', () => {
+    it('renders rows and columns', () => {
         const NameColumn = (props) => {
             const {value: sprint} = props;
             return (
@@ -27,7 +26,14 @@ describe('GridEditor', () => {
                     columns={[NameColumn]}/>
             </Editor>;
 
+
         const editor = mount(TestEditor);
-        expect(editor.find('span').text()).to.be.equal('dev');
+        let input = editor.find('input');
+        expect(input.props().value).to.be.equal('dev');
+
+        input.simulate('change', {target: {value: 'xpto'}});
+
+        input = editor.find('input');
+        expect(input.props().value).to.be.equal('xpto');
     });
 });
