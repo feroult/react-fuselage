@@ -1,10 +1,11 @@
-# React Fuselage
+# React Editor Base
 
-A set of opinionated react components that can be used together or separately to build a complete app.
+A full featured, extensible CRUD component.
 
 ## Features
 
- * CRUDs
- * i18n
- * Stores
+ * Complex object support
+ * Easy keyboard navigation
+ * Undo and redo operations
+ 
  
