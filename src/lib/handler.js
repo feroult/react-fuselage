@@ -3,14 +3,30 @@ import * as mobx from 'mobx';
 class Handler {
     constructor(value) {
         this.value = value;
+        this.stateHandler = new StateHandler(this);
         this.undoHandler = new UndoHandler(this);
     }
 
-    handleShortcuts(e) {
-        const detector = new KeyDetector(e);
+    handleShortcuts = (event) => {
+        const detector = new KeyDetector(event);
 
-        if (detector.isCtrlOrMeta('z')) {
-            console.log('undo');
+        if (detector.isCtrlOrMeta('x')) {
+            event.preventDefault();
+            this.undoHandler.popUndo();
+        }
+    };
+}
+
+class StateHandler {
+    constructor(handler) {
+        this.handler = handler;
+        this.observe();
+    }
+
+    observe() {
+        const value = this.handler.value;
+        if (!mobx.isObservable(value)) {
+            mobx.extendObservable(value, value);
         }
     }
 }
@@ -28,28 +44,47 @@ class UndoHandler {
 
     constructor(handler) {
         this.handler = handler;
+        this.pushUndo(this.getValueAsJson());
         this.startTracking();
     }
 
-    get valueJson() {
-        return JSON.stringify(this.handler.value);
-    }
+    getValueAsJson = () => JSON.stringify(this.handler.value);
+
+    setValueFromJson = (json) => this.handler.value = JSON.parse(json);
 
     pushUndo(valueJson) {
+        console.log('pushUndo');
         this.undo = this.undo || [];
         this.undo.push(valueJson);
         this.redo = [];
     }
 
-    startTracking() {
-        this.pushUndo(this.valueJson);
+    popUndo() {
+        console.log('popUndo');
+        if (this.undo.length < 2) {
+            return;
+        }
+        this.stopTracking();
+        this.pushRedo(this.undo.pop());
+        this.setValueFromJson(this.undo[this.undo.length - 1]);
+        this.startTracking();
+    }
 
+    pushRedo(json) {
+        this.redo.push(json);
+    }
+
+    startTracking() {
         this.removeTracker =
             mobx.reaction(
-                () => this.valueJson,
-                (valueJson) => {
-                    this.pushUndo(valueJson);
+                () => this.getValueAsJson(),
+                (json) => {
+                    this.pushUndo(json);
                 });
+    }
+
+    stopTracking() {
+        this.removeTracker();
     }
 
 }

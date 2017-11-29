@@ -1,41 +1,18 @@
 import React from 'react';
-import {Editor, GridEditor} from '../lib/editor';
+import {Handler} from '../lib/handler';
 
 import './helper';
-import {mount} from 'enzyme';
 import {expect} from 'chai';
 
-describe('GridEditor', () => {
-
+describe('Handler', () => {
     it('can undo changes', () => {
-        const NameColumn = (props) => {
-            const {value: sprint} = props;
-            return (
-                <input
-                    value={sprint.name}
-                    onChange={e => sprint.name = e.target.value}
-                />
-            );
-        };
-        const value = {sprints: [{name: 'dev'}]};
+        const handler = new Handler({sprints: [{name: 'dev'}]});
+        expect(handler.value.sprints[0].name).to.be.equals('dev');
 
-        const TestEditor =
-            <Editor value={value}>
-                <GridEditor
-                    rows={value => value.sprints}
-                    columns={[NameColumn]}/>
-            </Editor>;
+        handler.value.sprints[0].name = 'homolog';
+        expect(handler.value.sprints[0].name).to.be.equals('homolog');
 
-
-        const editor = mount(TestEditor);
-        let input = editor.find('input');
-        expect(input.props().value).to.be.equal('dev');
-
-        input.simulate('change', {target: {value: 'xpto'}});
-
-        input = editor.find('input');
-        expect(input.props().value).to.be.equal('xpto');
-
-        editor.simulate('keyDown', {key: 'z', ctrlKey: true});
+        handler.undoHandler.popUndo();
+        expect(handler.value.sprints[0].name).to.be.equals('dev');
     });
 });
