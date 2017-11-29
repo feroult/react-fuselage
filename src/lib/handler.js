@@ -50,17 +50,17 @@ class UndoHandler {
 
     getValueAsJson = () => JSON.stringify(this.handler.value);
 
-    setValueFromJson = (json) => this.handler.value = JSON.parse(json);
+    setValueFromJson = (json) => Object.assign(this.handler.value, JSON.parse(json));
 
     pushUndo(valueJson) {
-        console.log('pushUndo');
+        // console.log('pushUndo');
         this.undo = this.undo || [];
         this.undo.push(valueJson);
         this.redo = [];
     }
 
     popUndo() {
-        console.log('popUndo');
+        // console.log('popUndo');
         if (this.undo.length < 2) {
             return;
         }
