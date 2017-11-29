@@ -7,23 +7,17 @@ import {mount} from 'enzyme';
 import {expect} from 'chai';
 
 describe('GridEditor', () => {
-    it('renders without crashing', () => {
-        const TestEditor = (props) =>
-            <Editor value={{}}>
-                <GridEditor
-                    rows={() => []}
-                    columns={[]}/>
-            </Editor>;
 
-        const div = document.createElement('div');
-        ReactDOM.render(<TestEditor/>, div);
-    });
-
-    it('renders rows and columns', () => {
-        const NameColumn = ({value: sprint, ...props}) => {
-            return <span>{sprint.name}</span>;
+    xit('renders rows and columns', () => {
+        const NameColumn = (props) => {
+            const {value: sprint} = props;
+            return (
+                <input
+                    value={sprint.name}
+                    onChange={e => sprint.name = e.target.value}
+                />
+            );
         };
-
         const value = {sprints: [{name: 'dev'}]};
 
         const TestEditor =
