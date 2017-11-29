@@ -1,10 +1,14 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Handler} from './handler';
 import {GridEditor} from './grid-editor';
 import * as mobx from 'mobx';
 
 class Editor extends Component {
+
+    static childContextTypes = {
+        handler: PropTypes.object
+    };
 
     constructor(props) {
         super(props);
@@ -23,13 +27,12 @@ class Editor extends Component {
     }
 
     render() {
-        return this.props.children;
+        return <section
+            onKeyDown={this.handler.handleShortcuts}>
+            {this.props.children}
+        </section>
     }
 
 }
-
-Editor.childContextTypes = {
-    handler: PropTypes.object
-};
 
 export {Editor, GridEditor};

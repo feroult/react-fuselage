@@ -35,5 +35,7 @@ describe('GridEditor', () => {
 
         input = editor.find('input');
         expect(input.props().value).to.be.equal('xpto');
+
+        editor.simulate('keypress', {key: "z", code: "KeyZ"});
     });
 });
