@@ -1,4 +1,4 @@
-import {onent} from 'react';
+import {Component} from 'react';
 import PropTypes from 'prop-types';
 import {GridEditor} from './grid-editor';
 import * as mobx from 'mobx';

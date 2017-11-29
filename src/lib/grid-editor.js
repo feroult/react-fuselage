@@ -54,8 +54,13 @@ const GridEditor = observer(class extends Component {
 
     rowCount = this.props.rows.length;
 
+    get rows() {
+        return this.props.rows(this.context.handler.value);
+    }
+
     componentDidUpdate(prevProps, prevState) {
-        const rowCount = this.props.rows.length;
+        const rowCount = this.rows.length;
+        
         if (rowCount > this.rowCount) {
             selectInput({
                 row: rowCount - 1,
@@ -68,8 +73,9 @@ const GridEditor = observer(class extends Component {
     }
 
     render() {
+        const rows = this.rows;
+
         const {
-            rows: rowsFn,
             columns,
             newRecord = () => ({}),
             addRecord = () => rows.push(newRecord()),
@@ -78,8 +84,6 @@ const GridEditor = observer(class extends Component {
             rowComponent: Row = DefaultGridRowComponent,
             columnComponent: Column = DefaultGridColumnComponent
         } = this.props;
-
-        const rows = rowsFn(this.context.handler.value);
 
         return (
             <Grid addRecord={addRecord}>
@@ -153,7 +157,6 @@ const handleHorizontalNavigation = (event, grid) => {
 const selectInput = (grid) => {
     const className = gridClassName(grid);
     const input = document.getElementsByClassName(className)[0].firstChild;
-
     if (input.select) {
         input.select();
     }
