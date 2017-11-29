@@ -60,7 +60,7 @@ const GridEditor = observer(class extends Component {
 
     componentDidUpdate(prevProps, prevState) {
         const rowCount = this.rows.length;
-        
+
         if (rowCount > this.rowCount) {
             selectInput({
                 row: rowCount - 1,

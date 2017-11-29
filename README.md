@@ -1,6 +1,6 @@
 # React Editor Base
 
-A full featured, extensible CRUD component.
+A full featured and extensible CRUD component.
 
 ## Features
 
