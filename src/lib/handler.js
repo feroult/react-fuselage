@@ -48,30 +48,43 @@ class UndoHandler {
         this.startTracking();
     }
 
-    getValueAsJson = () => JSON.stringify(this.handler.value);
+    getValueAsJson() {
+        return JSON.stringify(this.handler.value);
+    }
 
-    setValueFromJson = (json) => Object.assign(this.handler.value, JSON.parse(json));
+    setValueFromJson(json) {
+        this.stopTracking();
+        Object.assign(this.handler.value, JSON.parse(json));
+        this.startTracking();
+    };
 
-    pushUndo(valueJson) {
-        // console.log('pushUndo');
+    pushUndo(json, redoReset = true) {
         this.undo = this.undo || [];
-        this.undo.push(valueJson);
-        this.redo = [];
+        this.undo.push(json);
+        if (redoReset) {
+            this.redo = [];
+        }
     }
 
     popUndo() {
-        // console.log('popUndo');
         if (this.undo.length < 2) {
             return;
         }
-        this.stopTracking();
         this.pushRedo(this.undo.pop());
         this.setValueFromJson(this.undo[this.undo.length - 1]);
-        this.startTracking();
     }
 
     pushRedo(json) {
         this.redo.push(json);
+    }
+
+    popRedo() {
+        if (this.redo.length === 0) {
+            return;
+        }
+        const json = this.redo.pop();
+        this.pushUndo(json, false);
+        this.setValueFromJson(json);
     }
 
     startTracking() {

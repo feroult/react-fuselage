@@ -23,4 +23,20 @@ describe('Handler', () => {
         handler.undoHandler.popUndo();
         expect(budget.sprints[0].info.name).to.be.equals('dev');
     });
+
+    it('redo changes', () => {
+        const handler = new Handler({sprints: [{name: 'dev'}]});
+
+        let budget = handler.value;
+        expect(budget.sprints[0].name).to.be.equals('dev');
+
+        budget.sprints[0].name = 'homolog';
+        expect(budget.sprints[0].name).to.be.equals('homolog');
+
+        handler.undoHandler.popUndo();
+        expect(budget.sprints[0].name).to.be.equals('dev');
+
+        handler.undoHandler.popRedo();
+        expect(budget.sprints[0].name).to.be.equals('homolog');
+    });
 });
