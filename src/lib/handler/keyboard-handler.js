@@ -1,13 +1,12 @@
 import keymaster from 'keymaster';
 
-const UNDO_KEYS = '⌘+z, ctrl+z';
+const UNDO_SHORTCUTS = '⌘+z, ctrl+z';
 
 class KeyboardHandler {
 
-    constructor(handler) {
-        this.handler = handler;
+    constructor(undoRedo) {
         this.contexts = [];
-        this.pushContext(new EditorContext(handler));
+        this.pushContext(new EditorContext(undoRedo));
     }
 
     pushContext(context) {
@@ -35,9 +34,9 @@ class KeyboardContext {
 
 class EditorContext extends KeyboardContext {
 
-    constructor(handler) {
+    constructor(undoRedo) {
         super();
-        this.addKey(UNDO_KEYS, handler.undoRedo.popUndo);
+        this.addKey(UNDO_SHORTCUTS, undoRedo.popUndo);
     }
 }
 

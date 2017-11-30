@@ -7,7 +7,7 @@ class Handler {
     constructor(value) {
         this.observe(value);
         this.undoRedo = new UndoRedoHandler(value);
-        this.keyboard = new KeyboardHandler(this);
+        this.keyboard = new KeyboardHandler(this.undoRedo);
     }
 
     observe(value) {
