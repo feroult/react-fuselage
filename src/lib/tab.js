@@ -2,4 +2,4 @@ const Tab = (props) => {
     return props.children;
 };
 
-export {Tab};
+export default Tab;

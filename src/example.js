@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as mobx from 'mobx';
-import Editor, {GridEditor} from './lib/editor.js';
+import Editor, {GridEditor, Tab} from './lib/editor.js';
 
 const NameColumn = (props) => {
     const {value: sprint} = props;
@@ -38,7 +38,12 @@ class BudgetEditor extends Component {
         const budget = this.props.budget;
         return (
             <Editor value={budget}>
-                <SprintsEditor/>
+                <Tab title="Sprints">
+                    <SprintsEditor/>
+                </Tab>
+                <Tab title="Team">
+                    <SprintsEditor/>
+                </Tab>
             </Editor>
         );
     }
