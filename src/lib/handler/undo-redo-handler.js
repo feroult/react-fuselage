@@ -19,6 +19,14 @@ class UndoRedoHandler {
     };
 
     pushUndo(json, redoReset = true) {
+        if (this.editing) {
+            if (this.holding) {
+                this.undo[this.undo.length - 1] = json;
+                return;
+            }
+            this.holding = true;
+        }
+
         this.undo = this.undo || [];
         this.undo.push(json);
         if (redoReset) {
@@ -58,6 +66,15 @@ class UndoRedoHandler {
         this.removeTracker();
     }
 
+    startEditing() {
+        this.editing = true;
+        this.holding = false;
+    }
+
+    stopEditing() {
+        this.editing = false;
+        this.holding = false;
+    }
 }
 
 export default UndoRedoHandler;

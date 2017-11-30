@@ -12,8 +12,8 @@ describe('UndoRedoHandler', () => {
         const undoRedo = new UndoRedoHandler(budget);
 
         expect(budget.sprints[0].info.name).to.be.equals('dev');
-        budget.sprints[0].info.name = 'homolog 1';
 
+        budget.sprints[0].info.name = 'homolog 1';
         expect(budget.sprints[0].info.name).to.be.equals('homolog 1');
 
         budget.sprints[0].info.name = 'homolog 2';
@@ -31,13 +31,30 @@ describe('UndoRedoHandler', () => {
         const undoRedo = new UndoRedoHandler(budget);
 
         expect(budget.sprints[0].name).to.be.equals('dev');
-        budget.sprints[0].name = 'homolog';
 
+        budget.sprints[0].name = 'homolog';
         expect(budget.sprints[0].name).to.be.equals('homolog');
+
         undoRedo.popUndo();
         expect(budget.sprints[0].name).to.be.equals('dev');
 
         undoRedo.popRedo();
+        expect(budget.sprints[0].name).to.be.equals('homolog');
+    });
+
+    it('considers single editions as one change', () => {
+        const budget = mobx.observable({sprints: [{name: 'homolog'}]});
+        const undoRedo = new UndoRedoHandler(budget);
+
+        expect(budget.sprints[0].name).to.be.equals('homolog');
+
+        undoRedo.startEditing();
+        budget.sprints[0].name = 'd';
+        budget.sprints[0].name = 'de';
+        budget.sprints[0].name = 'dev';
+        undoRedo.stopEditing();
+
+        undoRedo.popUndo();
         expect(budget.sprints[0].name).to.be.equals('homolog');
     });
 });
