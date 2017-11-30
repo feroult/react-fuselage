@@ -2,19 +2,19 @@ import * as mobx from 'mobx';
 
 class UndoRedoHandler {
 
-    constructor(handler) {
-        this.handler = handler;
+    constructor(value) {
+        this.value = value;
         this.pushUndo(this.getValueAsJson());
         this.startTracking();
     }
 
     getValueAsJson() {
-        return JSON.stringify(this.handler.value);
+        return JSON.stringify(this.value);
     }
 
     setValueFromJson(json) {
         this.stopTracking();
-        Object.assign(this.handler.value, JSON.parse(json));
+        Object.assign(this.value, JSON.parse(json));
         this.startTracking();
     };
 

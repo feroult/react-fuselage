@@ -6,35 +6,26 @@ import UndoRedoHandler from './undo-redo-handler';
 class Handler {
     constructor(value) {
         this.observe(value);
-        this.undoRedo = new UndoRedoHandler(this);
+        this.undoRedo = new UndoRedoHandler(value);
         this.keyboard = new KeyboardHandler(this);
     }
 
     observe(value) {
-        this._value = value;
+        this.value = value;
         if (!mobx.isObservable(value)) {
             mobx.extendObservable(value, value);
         }
     }
 
-    get value() {
-        return this._value;
-    }
-
-    set value(value) {
-        this._value = value;
-    }
-
     onFocus(event) {
         if (event.target.type === 'text') {
-            this.state.startEditing();
+            // this.undoRedo.startEditing();
         }
     }
 
     onBlur(event) {
         if (event.target.type === 'text') {
-            this.state.stopEditing();
-            // /this.undoRedo.stopEditing();
+            // this.undoRedo.stopEditing();
         }
     }
 
