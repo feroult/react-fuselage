@@ -81,9 +81,7 @@ class UndoRedoHandler {
         this.removeTracker =
             mobx.reaction(
                 () => this.getValueAsJson(),
-                (json) => {
-                    this.pushUndo(json);
-                });
+                (json) => this.pushUndo(json));
     }
 
     stopTracking() {
