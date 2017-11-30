@@ -226,4 +226,4 @@ const handleNavigation = (event, className, grid) => {
     }
 };
 
-export {GridEditor};
+export default GridEditor;

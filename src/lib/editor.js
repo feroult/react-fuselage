@@ -1,7 +1,8 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Handler} from './handler/handler';
-import {GridEditor} from './grid-editor';
+import Handler from './handler/handler';
+import GridEditor from './grid-editor';
+import Tab from './tab';
 
 class Editor extends Component {
 
@@ -12,6 +13,10 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.handler = new Handler(props.value);
+
+        // this.props.children.forEach(e => {
+        //     console.log('e', e);
+        // });
     }
 
     getChildContext() {
@@ -28,4 +33,5 @@ class Editor extends Component {
 
 }
 
-export {Editor, GridEditor};
+export default Editor;
+export {GridEditor, Tab};

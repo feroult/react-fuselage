@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Editor} from '../lib/editor';
+import Editor from '../lib/editor';
 
 import './helper';
 import {shallow} from 'enzyme';

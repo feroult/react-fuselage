@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import {Editor, GridEditor} from '../lib/editor';
+import Editor, {GridEditor} from '../lib/editor';
 
 import './helper';
 import {mount} from 'enzyme';

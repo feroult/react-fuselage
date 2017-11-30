@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as mobx from 'mobx';
-import {Editor, GridEditor} from './lib/editor.js';
+import Editor, {GridEditor} from './lib/editor.js';
 
 const NameColumn = (props) => {
     const {value: sprint} = props;
