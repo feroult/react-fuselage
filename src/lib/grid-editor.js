@@ -93,9 +93,10 @@ const GridEditor = observer(class extends Component {
             moveRecord = (fromIndex, toIndex) => {
                 mobx.runInAction(() => {
                     const rows = this.rows;
-                    const record = rows[fromIndex];
-                    rows[fromIndex] = rows[toIndex];
-                    rows[toIndex] = record;
+                    if (toIndex >= rows.length) {
+                        toIndex = rows.length - 1;
+                    }
+                    rows.splice(toIndex, 0, rows.splice(fromIndex, 1)[0]);
                 });
             },
             gridComponent: Grid = DefaultGridComponent,
