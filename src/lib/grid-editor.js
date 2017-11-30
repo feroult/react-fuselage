@@ -7,7 +7,7 @@ import Dragula from 'react-dragula';
 
 import './grid-editor.css';
 
-const columnWrapper = (Input) => {
+const cellWrapper = (Input) => {
     const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
     return (props) => {
         const className = gridClassName(props.grid);
@@ -110,11 +110,14 @@ const GridEditor = observer(class extends Component {
                     return (
                         <Row key={i}>
                             {columns.map((Input, j) => {
-                                const WrappedInput = columnWrapper(Input);
-                                const grid = {rows: this.rows.length, columns: columns.length, row: i, column: j};
+                                const grid = {
+                                    rows: this.rows.length, columns: columns.length,
+                                    row: i, column: j
+                                };
+                                const Cell = cellWrapper(Input);
                                 return (
                                     <Column key={i + '-' + j}>
-                                        <WrappedInput grid={grid} value={value}/>
+                                        <Cell grid={grid} value={value}/>
                                     </Column>
                                 );
                             })}
