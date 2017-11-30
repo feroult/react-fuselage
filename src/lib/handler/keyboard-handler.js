@@ -37,7 +37,7 @@ class EditorContext extends KeyboardContext {
 
     constructor(handler) {
         super();
-        this.addKey(UNDO_KEYS, handler.undoRedoHandler.popUndo);
+        this.addKey(UNDO_KEYS, handler.undoRedo.popUndo);
     }
 }
 

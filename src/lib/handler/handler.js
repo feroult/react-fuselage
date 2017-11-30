@@ -7,9 +7,9 @@ import UndoRedoHandler from './undo-redo-handler';
 class Handler {
     constructor(value) {
         this.observe(value);
-        this.stateHandler = new StateHandler(this);
-        this.undoRedoHandler = new UndoRedoHandler(this);
-        this.keyboardHandler = new KeyboardHandler(this);
+        this.state = new StateHandler(this);
+        this.undoRedo = new UndoRedoHandler(this);
+        this.keyboard = new KeyboardHandler(this);
     }
 
     observe(value) {
@@ -25,6 +25,19 @@ class Handler {
 
     set value(value) {
         this._value = value;
+    }
+
+    onFocus(event) {
+        if (event.target.type === 'text') {
+            this.state.startEditing();
+        }
+    }
+
+    onBlur(event) {
+        if (event.target.type === 'text') {
+            this.state.stopEditing();
+            // /this.undoRedo.stopEditing();
+        }
     }
 
 }

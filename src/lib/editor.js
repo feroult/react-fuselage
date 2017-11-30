@@ -1,4 +1,4 @@
-import {Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import {Handler} from './handler/handler';
 import {GridEditor} from './grid-editor';
@@ -19,7 +19,11 @@ class Editor extends Component {
     }
 
     render() {
-        return this.props.children;
+        return (
+            <section onFocus={this.handler.onFocus} onBlur={this.handler.onBlur}>
+                {this.props.children}
+            </section>
+        );
     }
 
 }

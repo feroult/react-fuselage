@@ -7,7 +7,7 @@ import {expect} from 'chai';
 describe('UndoRedoHandler', () => {
     it('can undo deep object changes', () => {
         const handler = new Handler({sprints: [{info: {name: 'dev'}}]});
-        const undoRedoHandler = handler.undoRedoHandler;
+        const undoRedoHandler = handler.undoRedo;
 
         let budget = handler._value;
 
@@ -27,7 +27,7 @@ describe('UndoRedoHandler', () => {
 
     it('redo changes', () => {
         const handler = new Handler({sprints: [{name: 'dev'}]});
-        const undoRedoHandler = handler.undoRedoHandler;
+        const undoRedoHandler = handler.undoRedo;
 
         let budget = handler._value;
 
