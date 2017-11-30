@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Editor, {GridEditor} from '../lib/editor';
+import Editor, {Grid} from '../lib/editor';
 
 import './helper';
 import {mount} from 'enzyme';
@@ -10,7 +10,7 @@ describe('GridEditor', () => {
     it('renders without crashing', () => {
         const TestEditor = (props) =>
             <Editor value={{}}>
-                <GridEditor
+                <Grid
                     rows={() => []}
                     columns={[]}/>
             </Editor>;
@@ -28,7 +28,7 @@ describe('GridEditor', () => {
 
         const TestEditor =
             <Editor value={value}>
-                <GridEditor
+                <Grid
                     rows={value => value.sprints}
                     columns={[NameColumn]}/>
             </Editor>;

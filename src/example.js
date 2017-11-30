@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import * as mobx from 'mobx';
-import Editor, {GridEditor, Tab} from './lib/editor.js';
+import Editor from './lib/editor.js';
 
 const NameColumn = (props) => {
     const {value: sprint} = props;
@@ -26,24 +26,25 @@ const SprintsEditor = (props) => {
     const rows = budget => budget.sprints;
     const columns = [NameColumn, QuantityColumn];
     const newRecord = () => ({name: '', quantity: ''});
-    return <GridEditor
+    return <Editor.Grid
         newRecord={newRecord}
         rows={rows}
         columns={columns}
     />;
 };
 
+
 class BudgetEditor extends Component {
     render() {
         const budget = this.props.budget;
         return (
             <Editor value={budget}>
-                <Tab title="Sprints">
+                <Editor.Tab title="Sprints">
                     <SprintsEditor/>
-                </Tab>
-                <Tab title="Team">
+                </Editor.Tab>
+                <Editor.Tab title="Team">
                     <SprintsEditor/>
-                </Tab>
+                </Editor.Tab>
             </Editor>
         );
     }

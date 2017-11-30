@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Handler from './handler/handler';
-import GridEditor from './grid-editor';
+import Grid from './grid';
 import Tab from './tab';
 
 class Editor extends Component {
@@ -13,7 +13,11 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.handler = new Handler(props.value);
+        this.initChildren();
+    }
 
+    initChildren() {
+        this.x = React.Children.toArray(this.props.children);
         // this.props.children.forEach(e => {
         //     console.log('e', e);
         // });
@@ -26,12 +30,14 @@ class Editor extends Component {
     render() {
         return (
             <section onFocus={this.handler.onFocus} onBlur={this.handler.onBlur}>
-                {this.props.children}
+                {this.x}
             </section>
         );
     }
 
 }
 
+Object.assign(Editor, {Grid, Tab});
+
 export default Editor;
-export {GridEditor, Tab};
+export {Grid, Tab};

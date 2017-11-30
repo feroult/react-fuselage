@@ -5,7 +5,7 @@ import * as mobx from 'mobx';
 import {observer} from 'mobx-react'
 import Dragula from 'react-dragula';
 
-import './grid-editor.css';
+import './grid.css';
 
 const cellWrapper = (Input) => {
     const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
@@ -58,7 +58,7 @@ const DefaultGridColumnComponent = (props) => {
     );
 };
 
-const GridEditor = observer(class extends Component {
+const Grid = observer(class extends Component {
 
     static contextTypes = {
         handler: PropTypes.object
@@ -226,4 +226,4 @@ const handleNavigation = (event, className, grid) => {
     }
 };
 
-export default GridEditor;
+export default Grid;
