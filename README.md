@@ -1,12 +1,12 @@
 # React Editor Base
 
-A full featured and extensible CRUD component.
+A full featured and extensible object editor.
 
 ## Features
 
  * Complex object support
- * Only programmatic API
- * Easy keyboard navigation
+ * No schemas, only programmatic 
+ * Keyboard input and navigation
  * Undo and redo operations
  
  
