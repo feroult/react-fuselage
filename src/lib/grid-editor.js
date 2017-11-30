@@ -85,15 +85,14 @@ const GridEditor = observer(class extends Component {
     }
 
     render() {
-        const rows = this.rows;
-
         const {
             columns,
             newRecord = () => ({}),
-            addRecord = () => rows.push(newRecord()),
-            removeRecord = (index) => rows.splice(index, 1),
+            addRecord = () => this.rows.push(newRecord()),
+            removeRecord = (index) => this.rows.splice(index, 1),
             moveRecord = (fromIndex, toIndex) => {
                 mobx.runInAction(() => {
+                    const rows = this.rows;
                     const record = rows[fromIndex];
                     rows[fromIndex] = rows[toIndex];
                     rows[toIndex] = record;
@@ -106,12 +105,12 @@ const GridEditor = observer(class extends Component {
 
         return (
             <Grid addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
-                {rows.map((value, i) => {
+                {this.rows.map((value, i) => {
                     return (
                         <Row key={i}>
                             {columns.map((Input, j) => {
                                 const WrappedInput = columnWrapper(Input);
-                                const grid = {rows: rows.length, columns: columns.length, row: i, column: j};
+                                const grid = {rows: this.rows.length, columns: columns.length, row: i, column: j};
                                 return (
                                     <Column key={i + '-' + j}>
                                         <WrappedInput grid={grid} value={value}/>
