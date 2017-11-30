@@ -19,10 +19,7 @@ class Editor extends Component {
     }
 
     render() {
-        return <section
-            onKeyDown={this.handler.handleShortcuts}>
-            {this.props.children}
-        </section>
+        return this.props.children;
     }
 
 }

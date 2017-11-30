@@ -4,17 +4,9 @@ class Handler {
     constructor(value) {
         this.value = value;
         this.stateHandler = new StateHandler(this);
-        this.undoHandler = new UndoHandler(this);
+        this.keyboardHandler = new KeyboardHandler(this);
+        this.undoRedoHandler = new UndoRedoHandler(this);
     }
-
-    handleShortcuts = (event) => {
-        const detector = new KeyDetector(event);
-
-        if (detector.isCtrlOrMeta('x')) {
-            event.preventDefault();
-            this.undoHandler.popUndo();
-        }
-    };
 }
 
 class StateHandler {
@@ -31,16 +23,14 @@ class StateHandler {
     }
 }
 
-class KeyDetector {
-    constructor(event) {
-        this.event = event;
+class KeyboardHandler {
+    constructor(handler) {
+        this.handler = handler;
     }
 
-    isCtrlOrMeta = (key) =>
-        this.event.key === key && (this.event.ctrlKey || this.event.metaKey);
 }
 
-class UndoHandler {
+class UndoRedoHandler {
 
     constructor(handler) {
         this.handler = handler;
@@ -101,6 +91,5 @@ class UndoHandler {
     }
 
 }
-
 
 export {Handler};

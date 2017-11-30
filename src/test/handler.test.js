@@ -17,10 +17,10 @@ describe('Handler', () => {
         budget.sprints[0].info.name = 'homolog 2';
         expect(budget.sprints[0].info.name).to.be.equals('homolog 2');
 
-        handler.undoHandler.popUndo();
+        handler.undoRedoHandler.popUndo();
         expect(budget.sprints[0].info.name).to.be.equals('homolog 1');
 
-        handler.undoHandler.popUndo();
+        handler.undoRedoHandler.popUndo();
         expect(budget.sprints[0].info.name).to.be.equals('dev');
     });
 
@@ -33,10 +33,10 @@ describe('Handler', () => {
         budget.sprints[0].name = 'homolog';
         expect(budget.sprints[0].name).to.be.equals('homolog');
 
-        handler.undoHandler.popUndo();
+        handler.undoRedoHandler.popUndo();
         expect(budget.sprints[0].name).to.be.equals('dev');
 
-        handler.undoHandler.popRedo();
+        handler.undoRedoHandler.popRedo();
         expect(budget.sprints[0].name).to.be.equals('homolog');
     });
 });
