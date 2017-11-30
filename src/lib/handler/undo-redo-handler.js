@@ -26,13 +26,13 @@ class UndoRedoHandler {
         }
     }
 
-    popUndo() {
+    popUndo = () => {
         if (this.undo.length < 2) {
             return;
         }
         this.pushRedo(this.undo.pop());
         this.setValueFromJson(this.undo[this.undo.length - 1]);
-    }
+    };
 
     pushRedo(json) {
         this.redo.push(json);
