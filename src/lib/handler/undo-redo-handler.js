@@ -1,35 +1,5 @@
 import * as mobx from 'mobx';
 
-class Handler {
-    constructor(value) {
-        this.value = value;
-        this.stateHandler = new StateHandler(this);
-        this.keyboardHandler = new KeyboardHandler(this);
-        this.undoRedoHandler = new UndoRedoHandler(this);
-    }
-}
-
-class StateHandler {
-    constructor(handler) {
-        this.handler = handler;
-        this.observe();
-    }
-
-    observe() {
-        const value = this.handler.value;
-        if (!mobx.isObservable(value)) {
-            mobx.extendObservable(value, value);
-        }
-    }
-}
-
-class KeyboardHandler {
-    constructor(handler) {
-        this.handler = handler;
-    }
-
-}
-
 class UndoRedoHandler {
 
     constructor(handler) {
@@ -90,4 +60,4 @@ class UndoRedoHandler {
 
 }
 
-export {Handler};
+export default UndoRedoHandler;

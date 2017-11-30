@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import {Handler} from './handler';
+import {Handler} from './handler/handler';
 import {GridEditor} from './grid-editor';
 
 class Editor extends Component {
