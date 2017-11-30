@@ -4,12 +4,12 @@ import * as mobx from 'mobx';
 import '../helper';
 import {expect} from 'chai';
 
-import UndoRedoHandler from '../../lib/handler/undo-redo-handler';
+import UndoRedo from '../../lib/handler/undo-redo';
 
 describe('UndoRedoHandler', () => {
     it('can undo deep object changes', () => {
         const budget = mobx.observable({sprints: [{info: {name: 'dev'}}]});
-        const undoRedo = new UndoRedoHandler(budget);
+        const undoRedo = new UndoRedo(budget);
 
         expect(budget.sprints[0].info.name).to.be.equal('dev');
 
@@ -28,7 +28,7 @@ describe('UndoRedoHandler', () => {
 
     it('redo changes', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
-        const undoRedo = new UndoRedoHandler(budget);
+        const undoRedo = new UndoRedo(budget);
 
         expect(budget.sprints[0].name).to.be.equal('dev');
 
@@ -44,7 +44,7 @@ describe('UndoRedoHandler', () => {
 
     it('undo/redo adding/removing items in a list', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
-        const undoRedo = new UndoRedoHandler(budget);
+        const undoRedo = new UndoRedo(budget);
 
         expect(budget.sprints.length).to.be.equal(1);
 
@@ -66,7 +66,7 @@ describe('UndoRedoHandler', () => {
 
     it('considers single editions as one change', () => {
         const budget = mobx.observable({sprints: [{name: 'homolog'}]});
-        const undoRedo = new UndoRedoHandler(budget);
+        const undoRedo = new UndoRedo(budget);
 
         expect(budget.sprints[0].name).to.be.equal('homolog');
 

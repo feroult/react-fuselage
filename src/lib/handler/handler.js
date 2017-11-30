@@ -1,13 +1,13 @@
 import * as mobx from 'mobx';
 
-import KeyboardHandler from './keyboard-handler';
-import UndoRedoHandler from './undo-redo-handler';
+import Keyboard from './keyboard';
+import UndoRedo from './undo-redo';
 
 class Handler {
     constructor(value) {
         this.observe(value);
-        this.undoRedo = new UndoRedoHandler(value);
-        this.keyboard = new KeyboardHandler(this.undoRedo);
+        this.undoRedo = new UndoRedo(value);
+        this.keyboard = new Keyboard(this.undoRedo);
     }
 
     observe(value) {
