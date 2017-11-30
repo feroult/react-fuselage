@@ -1,6 +1,8 @@
 import keymaster from 'keymaster';
 
 const UNDO_SHORTCUTS = '⌘+z, ctrl+z';
+const REDO_SHORTCUTS = '⌘+shift+z, ctrl+shift+z';
+
 
 class KeyboardHandler {
 
@@ -38,6 +40,7 @@ class EditorContext extends KeyboardContext {
     constructor(undoRedo) {
         super();
         this.addKey(UNDO_SHORTCUTS, undoRedo.popUndo);
+        this.addKey(REDO_SHORTCUTS, undoRedo.popRedo);
     }
 }
 

@@ -8,6 +8,30 @@ class UndoRedoHandler {
         this.startTracking();
     }
 
+    /**
+     * Recover the existing value before the last change to to the underlying value.
+     */
+    popUndo = () => {
+        if (this.undo.length < 2) {
+            return;
+        }
+        this.pushRedo(this.undo.pop());
+        this.setValueFromJson(this.undo[this.undo.length - 1]);
+        this.stopEditing();
+    };
+
+    /**
+     * Recover the existing value before the last call to popUndo.
+     */
+    popRedo = () => {
+        if (this.redo.length === 0) {
+            return;
+        }
+        const json = this.redo.pop();
+        this.pushUndo(json, false);
+        this.setValueFromJson(json);
+    };
+
     getValueAsJson() {
         return JSON.stringify(this.value);
     }
@@ -34,26 +58,8 @@ class UndoRedoHandler {
         }
     }
 
-    popUndo = () => {
-        if (this.undo.length < 2) {
-            return;
-        }
-        this.pushRedo(this.undo.pop());
-        this.setValueFromJson(this.undo[this.undo.length - 1]);
-        this.stopEditing();
-    };
-
     pushRedo(json) {
         this.redo.push(json);
-    }
-
-    popRedo() {
-        if (this.redo.length === 0) {
-            return;
-        }
-        const json = this.redo.pop();
-        this.pushUndo(json, false);
-        this.setValueFromJson(json);
     }
 
     startTracking() {
