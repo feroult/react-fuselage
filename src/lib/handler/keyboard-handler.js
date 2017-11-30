@@ -7,6 +7,7 @@ class KeyboardHandler {
     constructor(undoRedo) {
         this.contexts = [];
         this.pushContext(new EditorContext(undoRedo));
+        keymaster.filter = () => true;
     }
 
     pushContext(context) {

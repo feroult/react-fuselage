@@ -40,6 +40,7 @@ class UndoRedoHandler {
         }
         this.pushRedo(this.undo.pop());
         this.setValueFromJson(this.undo[this.undo.length - 1]);
+        this.stopEditing();
     };
 
     pushRedo(json) {

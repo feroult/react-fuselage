@@ -17,18 +17,17 @@ class Handler {
         }
     }
 
-    onFocus(event) {
+    onFocus = (event) => {
         if (event.target.type === 'text') {
-            // this.undoRedo.startEditing();
+            this.undoRedo.startEditing();
         }
-    }
+    };
 
-    onBlur(event) {
+    onBlur = (event) => {
         if (event.target.type === 'text') {
-            // this.undoRedo.stopEditing();
+            this.undoRedo.stopEditing();
         }
-    }
-
+    };
 }
 
 
