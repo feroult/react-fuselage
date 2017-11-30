@@ -1,6 +1,11 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import ReactDOM from 'react-dom';
+import * as mobx from 'mobx';
 import {observer} from 'mobx-react'
+import Dragula from 'react-dragula';
+
+import './grid-editor.css';
 
 const columnWrapper = (Input) => {
     const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
@@ -19,30 +24,37 @@ const RemoveButton = (props) => {
     return <button onClick={props.action}>Remove</button>;
 };
 
-const DefaultGridComponent = (props) => {
-    return (
-        <section>
-            <button onClick={props.addRecord}>Add</button>
-            <table>
-                <tbody>{props.children}</tbody>
-            </table>
-        </section>
-    );
+const DragButton = (props) => {
+    return <button>Drag</button>;
+};
+
+const DefaultGridComponent = class extends Component {
+    render() {
+        const props = this.props;
+        return (
+            <section>
+                <button onClick={props.addRecord}>Add</button>
+                <section className="reb-grid">
+                    {props.children}
+                </section>
+            </section>
+        );
+    }
 };
 
 const DefaultGridRowComponent = (props) => {
     return (
-        <tr>
+        <div className="reb-grid-row">
             {props.children}
-        </tr>
+        </div>
     );
 };
 
 const DefaultGridColumnComponent = (props) => {
     return (
-        <td>
+        <div className="reb-grid-cell">
             {props.children}
-        </td>
+        </div>
     );
 };
 
@@ -79,14 +91,21 @@ const GridEditor = observer(class extends Component {
             columns,
             newRecord = () => ({}),
             addRecord = () => rows.push(newRecord()),
-            removeRecordAt = (index) => rows.splice(index, 1),
+            removeRecord = (index) => rows.splice(index, 1),
+            moveRecord = (fromIndex, toIndex) => {
+                mobx.runInAction(() => {
+                    const record = rows[fromIndex];
+                    rows[fromIndex] = rows[toIndex];
+                    rows[toIndex] = record;
+                });
+            },
             gridComponent: Grid = DefaultGridComponent,
             rowComponent: Row = DefaultGridRowComponent,
             columnComponent: Column = DefaultGridColumnComponent
         } = this.props;
 
         return (
-            <Grid addRecord={addRecord}>
+            <Grid addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
                 {rows.map((value, i) => {
                     return (
                         <Row key={i}>
@@ -100,7 +119,10 @@ const GridEditor = observer(class extends Component {
                                 );
                             })}
                             <Column key={i + '-' + columns.length}>
-                                <RemoveButton action={() => removeRecordAt(i)}/>
+                                <RemoveButton action={() => removeRecord(i)}/>
+                            </Column>
+                            <Column key={i + '-' + columns.length + 1}>
+                                <DragButton/>
                             </Column>
                         </Row>
                     )
@@ -108,11 +130,39 @@ const GridEditor = observer(class extends Component {
             </Grid>
         );
     }
+
 });
 
-// Navigation
+// UI Behavior
 
 const gridClassName = (grid) => `__grid-row${grid.row}-column${grid.column}__`;
+
+const dragAndDropDecorator = (component, moveFn) => {
+    if (!component) {
+        return;
+    }
+
+    const grid = ReactDOM.findDOMNode(component).querySelector('.reb-grid');
+
+    if (grid.getAttribute('data-reb-grid') === 'on') {
+        return;
+    } else {
+        grid.setAttribute('data-reb-grid', 'on')
+    }
+
+    const drake = Dragula([grid]);
+
+    let fromIndex;
+    drake.on('drag', (el, target, source, sibling) => {
+        fromIndex = [...el.parentElement.children].indexOf(el);
+    });
+
+    drake.on('drop', (el, target, source, sibling) => {
+        const toIndex = [...el.parentElement.children].indexOf(el);
+        moveFn(fromIndex, toIndex);
+        drake.cancel(true);
+    });
+};
 
 const handleVerticalNavigation = (event, grid) => {
     event.preventDefault();
