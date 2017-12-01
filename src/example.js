@@ -43,7 +43,7 @@ class BudgetEditor extends Component {
                     <SprintsEditor/>
                 </Tab>
                 <Tab title="Team">
-                    <SprintsEditor/>
+                    <div>Hello</div>
                 </Tab>
             </Editor>
         );
