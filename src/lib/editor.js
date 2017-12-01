@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Handler from './handler/handler';
 import Grid from './grid';
-import Tab from './tab';
+import {Tab, TabGroup} from './tabs';
 
 class Editor extends Component {
 
@@ -17,10 +17,22 @@ class Editor extends Component {
     }
 
     initChildren() {
-        this.x = React.Children.toArray(this.props.children);
-        // this.props.children.forEach(e => {
-        //     console.log('e', e);
-        // });
+        let all = React.Children.toArray(this.props.children);
+        const tabs = [];
+        const other = [];
+        all.forEach(child => {
+            if (child.type === Tab) {
+                tabs.push(child);
+            } else {
+                other.push(child);
+            }
+        });
+
+        this.children = other;
+
+        if (tabs.length > 0) {
+            this.children.push(<TabGroup key="tab-group" tabs={tabs}/>);
+        }
     }
 
     getChildContext() {
@@ -30,7 +42,7 @@ class Editor extends Component {
     render() {
         return (
             <section onFocus={this.handler.onFocus} onBlur={this.handler.onBlur}>
-                {this.x}
+                {this.children}
             </section>
         );
     }
@@ -38,6 +50,5 @@ class Editor extends Component {
 }
 
 Object.assign(Editor, {Grid, Tab});
-
 export default Editor;
 export {Grid, Tab};
