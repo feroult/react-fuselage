@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './grid';
 import {Tab, TabGroup} from './tabs';
@@ -14,6 +15,10 @@ class Editor extends Component {
         super(props);
         this.handler = new Handler(props.value);
         this.initChildren();
+    }
+
+    get value() {
+        return mobx.toJS(this.handler.value);
     }
 
     initChildren() {
@@ -31,7 +36,7 @@ class Editor extends Component {
         this.children = other;
 
         if (tabs.length > 0) {
-            this.children.push(<TabGroup key="tab-group" tabs={tabs}/>);
+            this.children.push(<TabGroup key="tab-group" state={this.handler.state} tabs={tabs}/>);
         }
     }
 

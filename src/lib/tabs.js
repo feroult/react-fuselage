@@ -1,17 +1,22 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {observer} from 'mobx-react'
+
 
 const Tab = (props) => {
     return props.children;
 };
 
-const TabGroupNav = ({tabs, ...props}) => {
+const TabGroupNav = ({state, tabs, ...props}) => {
+
+    const changeTab = (index) => state.tab = index;
+
     return (
         <section className="reb-tab-group-nav">
             <ul>
                 {tabs.map((tab, index) => {
                     return (
                         <li key={"tab-group-nav-" + index}>
-                            <a onClick={() => props.changeTab(index)}>
+                            <a onClick={() => changeTab(index)}>
                                 {tab.props.title}
                             </a>
                         </li>
@@ -22,29 +27,14 @@ const TabGroupNav = ({tabs, ...props}) => {
     );
 };
 
-class TabGroup extends Component {
+const TabGroup = observer(({state, tabs, ...props}) => {
+    return (
+        <section>
+            <TabGroupNav state={state} tabs={tabs}/>
+            {tabs[state.tab]}
+        </section>
+    );
+});
 
-    state = {
-        currentTab: 0
-    };
-
-    changeTab = (currentTab) => {
-        this.setState({currentTab})
-    };
-
-    render() {
-        return (
-            <section>
-                <TabGroupNav
-                    currentTab={this.state.currentTab}
-                    changeTab={this.changeTab}
-                    tabs={this.props.tabs}/>
-                {this.props.tabs[this.state.currentTab]}
-            </section>
-        );
-    }
-
-
-}
 
 export {Tab, TabGroup};

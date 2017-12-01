@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import * as mobx from 'mobx';
 import Editor, {Tab} from './lib/editor.js';
 
 const NameColumn = (props) => {
@@ -34,10 +33,15 @@ const SprintsEditor = (props) => {
 };
 
 class BudgetEditor extends Component {
+
+    get budget() {
+        return this.editor.value;
+    }
+
     render() {
         const budget = this.props.budget;
         return (
-            <Editor value={budget}>
+            <Editor value={budget} ref={c => this.editor = c}>
                 <Tab title="Sprints">
                     <SprintsEditor/>
                 </Tab>
@@ -52,7 +56,7 @@ class BudgetEditor extends Component {
 export default class Main extends Component {
 
     print(budget) {
-        console.log('budget', mobx.toJS(budget));
+        console.log('budget', this.editor.budget);
     }
 
     render() {
@@ -63,7 +67,7 @@ export default class Main extends Component {
 
         return (
             <div>
-                <BudgetEditor budget={budget}/>
+                <BudgetEditor budget={budget} ref={(c) => this.editor = c}/>
                 <button onClick={() => this.print(budget)}>print</button>
             </div>
         );
