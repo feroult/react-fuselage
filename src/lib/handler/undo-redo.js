@@ -2,9 +2,10 @@ import * as mobx from 'mobx';
 
 class UndoRedoHandler {
 
-    constructor(value) {
+    constructor(value, state) {
         this.value = value;
-        this.pushUndo(this.getValueAsJson());
+        this.state = state;
+        this.pushUndo();
         this.startTracking();
     }
 
@@ -16,7 +17,7 @@ class UndoRedoHandler {
             return;
         }
         this.pushRedo(this.undo.pop());
-        this.setValueFromJson(this.undo[this.undo.length - 1]);
+        this.restoreFrom(this.undo[this.undo.length - 1]);
         this.stopEditing();
     };
 
@@ -27,13 +28,21 @@ class UndoRedoHandler {
         if (this.redo.length === 0) {
             return;
         }
-        const json = this.redo.pop();
-        this.pushUndo(json, false);
-        this.setValueFromJson(json);
+        const context = this.redo.pop();
+        this.pushUndo(false);
+        this.restoreFrom(context);
     };
 
     getValueAsJson() {
         return JSON.stringify(this.value);
+    }
+
+    getStateAsJson() {
+        return JSON.stringify(this.state);
+    }
+
+    restoreFrom(context) {
+        this.setValueFromJson(context.value);
     }
 
     setValueFromJson(json) {
@@ -42,17 +51,22 @@ class UndoRedoHandler {
         this.startTracking();
     };
 
-    pushUndo(json, redoReset = true) {
+    pushUndo(redoReset = true) {
+        const context = {
+            state: this.getStateAsJson(),
+            value: this.getValueAsJson()
+        };
+
         if (this.editing) {
             if (this.holding) {
-                this.undo[this.undo.length - 1] = json;
+                this.undo[this.undo.length - 1] = context;
                 return;
             }
             this.holding = true;
         }
 
         this.undo = this.undo || [];
-        this.undo.push(json);
+        this.undo.push(context);
         if (redoReset) {
             this.redo = [];
         }
@@ -66,7 +80,7 @@ class UndoRedoHandler {
         this.removeTracker =
             mobx.reaction(
                 () => this.getValueAsJson(),
-                (json) => this.pushUndo(json));
+                () => this.pushUndo());
     }
 
     stopTracking() {
