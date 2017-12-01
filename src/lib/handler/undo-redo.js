@@ -49,13 +49,18 @@ class UndoRedoHandler {
     }
 
     restoreFrom(context) {
-        this.stopTracking();
+        this.setStateFromJson(context.state);
         this.setValueFromJson(context.value);
-        this.startTracking();
+    }
+
+    setStateFromJson(json) {
+        Object.assign(this.state, JSON.parse(json));
     }
 
     setValueFromJson(json) {
+        this.stopTracking();
         Object.assign(this.value, JSON.parse(json));
+        this.startTracking();
     }
 
     pushUndo(context, redoReset) {

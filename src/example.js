@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import Editor, {Tab} from './lib/editor.js';
 
-const NameColumn = (props) => {
+const SprintNameCell = (props) => {
     const {value: sprint} = props;
     return (
         <input
@@ -11,7 +11,7 @@ const NameColumn = (props) => {
     );
 };
 
-const QuantityColumn = (props) => {
+const SprintQuantityCell = (props) => {
     const {value: sprint} = props;
     return (
         <input
@@ -23,8 +23,29 @@ const QuantityColumn = (props) => {
 
 const SprintsEditor = (props) => {
     const rows = budget => budget.sprints;
-    const columns = [NameColumn, QuantityColumn];
+    const columns = [SprintNameCell, SprintQuantityCell];
     const newRecord = () => ({name: '', quantity: ''});
+    return <Editor.Grid
+        newRecord={newRecord}
+        rows={rows}
+        columns={columns}
+    />;
+};
+
+const TeamNameCell = (props) => {
+    const {value: team} = props;
+    return (
+        <input
+            value={team.name}
+            onChange={e => team.name = e.target.value}
+        />
+    );
+};
+
+const TeamEditor = (props) => {
+    const rows = budget => budget.team;
+    const columns = [TeamNameCell];
+    const newRecord = () => ({name: ''});
     return <Editor.Grid
         newRecord={newRecord}
         rows={rows}
@@ -46,7 +67,7 @@ class BudgetEditor extends Component {
                     <SprintsEditor/>
                 </Tab>
                 <Tab title="Team">
-                    <div>Hello</div>
+                    <TeamEditor/>
                 </Tab>
             </Editor>
         );
@@ -62,7 +83,8 @@ export default class Main extends Component {
     render() {
         const budget = {
             name: 'budget 1',
-            sprints: [{name: 'sprint 0', quantity: 1}, {name: 'dev', quantity: 10}]
+            sprints: [{name: 'sprint 0', quantity: 1}, {name: 'dev', quantity: 10}],
+            team: [{name: 'dev sr'}]
         };
 
         return (
