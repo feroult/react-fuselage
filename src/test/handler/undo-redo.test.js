@@ -9,7 +9,7 @@ import UndoRedo from '../../lib/handler/undo-redo';
 describe('UndoRedoHandler', () => {
     it('can undo deep object changes', () => {
         const budget = mobx.observable({sprints: [{info: {name: 'dev'}}]});
-        const undoRedo = new UndoRedo(budget);
+        const undoRedo = new UndoRedo(budget, {});
 
         expect(budget.sprints[0].info.name).to.be.equal('dev');
 
@@ -28,7 +28,7 @@ describe('UndoRedoHandler', () => {
 
     it('redo changes', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
-        const undoRedo = new UndoRedo(budget);
+        const undoRedo = new UndoRedo(budget, {});
 
         expect(budget.sprints[0].name).to.be.equal('dev');
 
@@ -44,7 +44,7 @@ describe('UndoRedoHandler', () => {
 
     it('undo/redo many times', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
-        const undoRedo = new UndoRedo(budget);
+        const undoRedo = new UndoRedo(budget, {});
 
         budget.sprints.push({name: ''});
         expect(budget.sprints.length).to.be.equal(2);
@@ -69,9 +69,51 @@ describe('UndoRedoHandler', () => {
         expect(budget.sprints[1].name).to.be.equal('homolog');
     });
 
+    it.only('undo/redo twice in a row', () => {
+        const budget = mobx.observable({sprints: [{name: 'dev'}, {name: 'homolog'}]});
+        const undoRedo = new UndoRedo(budget, {});
+
+        budget.sprints.push({name: ''});
+        undoRedo.startEditing();
+
+        undoRedo.stopEditing();
+        budget.sprints.push({name: ''});
+        undoRedo.startEditing();
+
+        undoRedo.stopEditing();
+        undoRedo.startEditing();
+        budget.sprints[2].name = 'x';
+        undoRedo.stopEditing();
+        undoRedo.startEditing();
+        budget.sprints[3].name = 'y';
+        undoRedo.stopEditing();
+
+        undoRedo.popUndo();
+        undoRedo.popUndo();
+        undoRedo.popUndo();
+        undoRedo.popUndo();
+
+        undoRedo.popRedo();
+        undoRedo.startEditing();
+
+        undoRedo.popRedo();
+        undoRedo.startEditing();
+
+        undoRedo.popRedo();
+        undoRedo.popRedo();
+
+        expect(budget.sprints[2].name).to.be.equal('x');
+        expect(budget.sprints[3].name).to.be.equal('y');
+
+        undoRedo.popUndo();
+
+        expect(budget.sprints[2].name).to.be.equal('x');
+        expect(budget.sprints[3].name).to.be.equal('');
+    });
+
     it('undo/redo adding/removing items in a list', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
-        const undoRedo = new UndoRedo(budget);
+        const undoRedo = new UndoRedo(budget, {});
 
         expect(budget.sprints.length).to.be.equal(1);
 
@@ -93,7 +135,7 @@ describe('UndoRedoHandler', () => {
 
     it('considers single editions as one change', () => {
         const budget = mobx.observable({sprints: [{name: 'homolog'}]});
-        const undoRedo = new UndoRedo(budget);
+        const undoRedo = new UndoRedo(budget, {});
 
         expect(budget.sprints[0].name).to.be.equal('homolog');
 

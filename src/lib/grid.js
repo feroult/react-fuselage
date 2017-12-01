@@ -74,7 +74,7 @@ const Grid = observer(class extends Component {
         const rowCount = this.rows.length;
 
         if (rowCount > this.rowCount) {
-            selectInput({
+            focusInput({
                 row: rowCount - 1,
                 column: 0
             });
@@ -207,9 +207,15 @@ const handleHorizontalNavigation = (event, grid) => {
     selectInput({row, column});
 };
 
-const selectInput = (grid) => {
+const findInput = function (grid) {
     const className = gridClassName(grid);
-    const input = document.getElementsByClassName(className)[0].firstChild;
+    return document.getElementsByClassName(className)[0].firstChild;
+};
+
+const focusInput = (grid) => findInput(grid).focus();
+
+const selectInput = (grid) => {
+    const input = findInput(grid);
     if (input.select) {
         input.select();
     }
