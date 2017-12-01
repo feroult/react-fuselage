@@ -5,7 +5,7 @@ class UndoRedoHandler {
     constructor(value, state) {
         this.value = value;
         this.state = state;
-        this.pushUndo();
+        this.pushUndo(this.currentContext(), true);
         this.startTracking();
     }
 
@@ -29,7 +29,7 @@ class UndoRedoHandler {
             return;
         }
         const context = this.redo.pop();
-        this.pushUndo(false);
+        this.pushUndo(context, false);
         this.restoreFrom(context);
     };
 
@@ -41,22 +41,24 @@ class UndoRedoHandler {
         return JSON.stringify(this.state);
     }
 
-    restoreFrom(context) {
-        this.setValueFromJson(context.value);
-    }
-
-    setValueFromJson(json) {
-        this.stopTracking();
-        Object.assign(this.value, JSON.parse(json));
-        this.startTracking();
-    };
-
-    pushUndo(redoReset = true) {
-        const context = {
+    currentContext() {
+        return {
             state: this.getStateAsJson(),
             value: this.getValueAsJson()
         };
+    }
 
+    restoreFrom(context) {
+        this.stopTracking();
+        this.setValueFromJson(context.value);
+        this.startTracking();
+    }
+
+    setValueFromJson(json) {
+        Object.assign(this.value, JSON.parse(json));
+    }
+
+    pushUndo(context, redoReset) {
         if (this.editing) {
             if (this.holding) {
                 this.undo[this.undo.length - 1] = context;
@@ -72,15 +74,15 @@ class UndoRedoHandler {
         }
     }
 
-    pushRedo(json) {
-        this.redo.push(json);
+    pushRedo(context) {
+        this.redo.push(context);
     }
 
     startTracking() {
         this.removeTracker =
             mobx.reaction(
                 () => this.getValueAsJson(),
-                () => this.pushUndo());
+                () => this.pushUndo(this.currentContext(), true));
     }
 
     stopTracking() {

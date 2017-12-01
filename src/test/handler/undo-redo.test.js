@@ -42,6 +42,33 @@ describe('UndoRedoHandler', () => {
         expect(budget.sprints[0].name).to.be.equal('homolog');
     });
 
+    it('undo/redo many times', () => {
+        const budget = mobx.observable({sprints: [{name: 'dev'}]});
+        const undoRedo = new UndoRedo(budget);
+
+        budget.sprints.push({name: ''});
+        expect(budget.sprints.length).to.be.equal(2);
+        expect(budget.sprints[1].name).to.be.equal('');
+
+        undoRedo.startEditing();
+        budget.sprints[1].name = 'homolog';
+        undoRedo.stopEditing();
+
+        expect(budget.sprints[1].name).to.be.equal('homolog');
+
+        undoRedo.popUndo();
+        expect(budget.sprints[1].name).to.be.equal('');
+
+        undoRedo.popRedo();
+        expect(budget.sprints[1].name).to.be.equal('homolog');
+
+        undoRedo.popUndo();
+        expect(budget.sprints[1].name).to.be.equal('');
+
+        undoRedo.popRedo();
+        expect(budget.sprints[1].name).to.be.equal('homolog');
+    });
+
     it('undo/redo adding/removing items in a list', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}]});
         const undoRedo = new UndoRedo(budget);
