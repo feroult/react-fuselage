@@ -5,8 +5,6 @@ const Tab = (props) => {
 };
 
 const TabGroupNav = ({tabs, ...props}) => {
-
-
     return (
         <section className="reb-tab-group-nav">
             <ul>
