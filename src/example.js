@@ -33,7 +33,6 @@ const SprintsEditor = (props) => {
     />;
 };
 
-
 class BudgetEditor extends Component {
     render() {
         const budget = this.props.budget;
