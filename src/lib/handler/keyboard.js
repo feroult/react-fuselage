@@ -8,11 +8,11 @@ class KeyboardHandler {
 
     constructor(undoRedo) {
         this.contexts = [];
-        this.pushContext(new EditorContext(undoRedo));
+        this._pushContext(new EditorContext(undoRedo));
         keymaster.filter = () => true;
     }
 
-    pushContext(context) {
+    _pushContext(context) {
         context.bind();
         this.contexts.push(context);
     }
@@ -42,6 +42,7 @@ class EditorContext extends KeyboardContext {
         this.addKey(UNDO_SHORTCUTS, undoRedo.undo);
         this.addKey(REDO_SHORTCUTS, undoRedo.redo);
     }
+    
 }
 
 export default KeyboardHandler;

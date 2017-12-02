@@ -66,12 +66,12 @@ const Grid = observer(class extends Component {
 
     rowCount = this.props.rows.length;
 
-    get rows() {
+    get _rows() {
         return this.props.rows(this.context.handler.value);
     }
 
     componentDidUpdate(prevProps, prevState) {
-        const rowCount = this.rows.length;
+        const rowCount = this._rows.length;
 
         if (rowCount > this.rowCount) {
             focusInput({
@@ -88,11 +88,11 @@ const Grid = observer(class extends Component {
         const {
             columns,
             newRecord = () => ({}),
-            addRecord = () => this.rows.push(newRecord()),
-            removeRecord = (index) => this.rows.splice(index, 1),
+            addRecord = () => this._rows.push(newRecord()),
+            removeRecord = (index) => this._rows.splice(index, 1),
             moveRecord = (fromIndex, toIndex) => {
                 mobx.runInAction(() => {
-                    const rows = this.rows;
+                    const rows = this._rows;
                     if (toIndex >= rows.length) {
                         toIndex = rows.length - 1;
                     }
@@ -106,12 +106,12 @@ const Grid = observer(class extends Component {
 
         return (
             <Grid addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
-                {this.rows.map((value, i) => {
+                {this._rows.map((value, i) => {
                     return (
                         <Row key={i}>
                             {columns.map((Input, j) => {
                                 const grid = {
-                                    rows: this.rows.length, columns: columns.length,
+                                    rows: this._rows.length, columns: columns.length,
                                     row: i, column: j
                                 };
                                 const Cell = cellWrapper(Input);

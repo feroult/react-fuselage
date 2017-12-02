@@ -14,14 +14,14 @@ class Editor extends Component {
     constructor(props) {
         super(props);
         this.handler = new Handler(props.value);
-        this.initChildren();
+        this._initChildren();
     }
 
     get value() {
         return mobx.toJS(this.handler.value);
     }
 
-    initChildren() {
+    _initChildren() {
         let all = React.Children.toArray(this.props.children);
         const tabs = [];
         const other = [];
