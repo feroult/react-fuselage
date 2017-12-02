@@ -10,7 +10,7 @@ class UndoRedoHandler {
     }
 
     /**
-     * Recover the existing value before the last change to to the underlying value.
+     * Recover the existing value before the last change to the underlying value.
      */
     undo = () => {
         this.stopEditing();
