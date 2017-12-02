@@ -69,7 +69,7 @@ describe('UndoRedoHandler', () => {
         expect(budget.sprints[1].name).to.be.equal('homolog');
     });
 
-    it.only('undo/redo twice in a row', () => {
+    it('undo/redo twice in a row', () => {
         const budget = mobx.observable({sprints: [{name: 'dev'}, {name: 'homolog'}]});
         const undoRedo = new UndoRedo(budget, {});
 

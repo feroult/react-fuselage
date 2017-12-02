@@ -5,8 +5,8 @@ class UndoRedoHandler {
     constructor(value, state) {
         this.value = value;
         this.state = state;
-        this.pushUndo(this.currentContext(), true);
-        this.startTracking();
+        this._pushUndo(this._currentContext(), true);
+        this._startTracking();
     }
 
     /**
@@ -15,11 +15,11 @@ class UndoRedoHandler {
     popUndo = () => {
         this.stopEditing();
 
-        if (this.undo.length < 2) {
+        if (this._undo.length < 2) {
             return;
         }
-        this.pushRedo(this.undo.pop());
-        this.restoreFrom(this.undo[this.undo.length - 1]);
+        this._pushRedo(this._undo.pop());
+        this._restoreFrom(this._undo[this._undo.length - 1]);
 
     };
 
@@ -29,86 +29,91 @@ class UndoRedoHandler {
     popRedo = () => {
         this.stopEditing();
 
-        if (this.redo.length === 0) {
+        if (this._redo.length === 0) {
             return;
         }
-        const context = this.redo.pop();
-        this.pushUndo(context, false);
-        this.restoreFrom(context);
+        const context = this._redo.pop();
+        this._pushUndo(context, false);
+        this._restoreFrom(context);
     };
 
-    getValueAsJson() {
+    /**
+     * Start grouping next changes into a single change
+     */
+    startEditing() {
+        this.editing = true;
+        this.holding = false;
+    }
+
+    /**
+     * Stop grouping changes.
+     */
+    stopEditing() {
+        this.editing = false;
+        this.holding = false;
+    }
+
+    _getValueAsJson() {
         return JSON.stringify(this.value);
     }
 
-    getStateAsJson() {
+    _getStateAsJson() {
         return JSON.stringify(this.state);
     }
 
-    currentContext() {
+    _currentContext() {
         return {
-            state: this.getStateAsJson(),
-            value: this.getValueAsJson()
+            state: this._getStateAsJson(),
+            value: this._getValueAsJson()
         };
     }
 
-    restoreFrom(context) {
-        this.setStateFromJson(context.state);
-        this.setValueFromJson(context.value);
+    _restoreFrom(context) {
+        this._setStateFromJson(context.state);
+        this._setValueFromJson(context.value);
     }
 
-    setStateFromJson(json) {
+    _setStateFromJson(json) {
         Object.assign(this.state, JSON.parse(json));
     }
 
-    setValueFromJson(json) {
-        this.stopTracking();
+    _setValueFromJson(json) {
+        this._stopTracking();
         Object.assign(this.value, JSON.parse(json));
-        this.startTracking();
+        this._startTracking();
     }
 
-    pushUndo(context, redoReset) {
+    _pushUndo(context, redoReset) {
         if (this.editing) {
             if (this.holding) {
-                this.undo[this.undo.length - 1] = context;
+                this._undo[this._undo.length - 1] = context;
                 return;
             }
             this.holding = true;
         }
 
-        this.undo = this.undo || [];
-        this.undo.push(context);
+        this._undo = this._undo || [];
+        this._undo.push(context);
         if (redoReset) {
-            this.redo = [];
+            this._redo = [];
         }
     }
 
-    pushRedo(context) {
-        this.redo.push(context);
+    _pushRedo(context) {
+        this._redo.push(context);
     }
 
-    startTracking() {
+    _startTracking() {
         this.removeTracker =
             mobx.reaction(
-                () => this.getValueAsJson(),
-                () => this.pushUndo(this.currentContext(), true));
+                () => this._getValueAsJson(),
+                () => this._pushUndo(this._currentContext(), true));
     }
 
-    stopTracking() {
+    _stopTracking() {
         this.removeTracker();
     }
 
-    startEditing() {
-        // console.log('start');
-        this.editing = true;
-        this.holding = false;
-    }
-
-    stopEditing() {
-        // console.log('stop');
-        this.editing = false;
-        this.holding = false;
-    }
 }
 
 export default UndoRedoHandler;
