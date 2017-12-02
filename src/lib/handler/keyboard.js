@@ -39,8 +39,8 @@ class EditorContext extends KeyboardContext {
 
     constructor(undoRedo) {
         super();
-        this.addKey(UNDO_SHORTCUTS, undoRedo.popUndo);
-        this.addKey(REDO_SHORTCUTS, undoRedo.popRedo);
+        this.addKey(UNDO_SHORTCUTS, undoRedo.undo);
+        this.addKey(REDO_SHORTCUTS, undoRedo.redo);
     }
 }
 

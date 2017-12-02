@@ -19,10 +19,10 @@ describe('UndoRedoHandler', () => {
         budget.sprints[0].info.name = 'homolog 2';
         expect(budget.sprints[0].info.name).to.be.equal('homolog 2');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[0].info.name).to.be.equal('homolog 1');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[0].info.name).to.be.equal('dev');
     });
 
@@ -35,10 +35,10 @@ describe('UndoRedoHandler', () => {
         budget.sprints[0].name = 'homolog';
         expect(budget.sprints[0].name).to.be.equal('homolog');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[0].name).to.be.equal('dev');
 
-        undoRedo.popRedo();
+        undoRedo.redo();
         expect(budget.sprints[0].name).to.be.equal('homolog');
     });
 
@@ -56,16 +56,16 @@ describe('UndoRedoHandler', () => {
 
         expect(budget.sprints[1].name).to.be.equal('homolog');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[1].name).to.be.equal('');
 
-        undoRedo.popRedo();
+        undoRedo.redo();
         expect(budget.sprints[1].name).to.be.equal('homolog');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[1].name).to.be.equal('');
 
-        undoRedo.popRedo();
+        undoRedo.redo();
         expect(budget.sprints[1].name).to.be.equal('homolog');
     });
 
@@ -88,24 +88,24 @@ describe('UndoRedoHandler', () => {
         budget.sprints[3].name = 'y';
         undoRedo.stopEditing();
 
-        undoRedo.popUndo();
-        undoRedo.popUndo();
-        undoRedo.popUndo();
-        undoRedo.popUndo();
+        undoRedo.undo();
+        undoRedo.undo();
+        undoRedo.undo();
+        undoRedo.undo();
 
-        undoRedo.popRedo();
+        undoRedo.redo();
         undoRedo.startEditing();
 
-        undoRedo.popRedo();
+        undoRedo.redo();
         undoRedo.startEditing();
 
-        undoRedo.popRedo();
-        undoRedo.popRedo();
+        undoRedo.redo();
+        undoRedo.redo();
 
         expect(budget.sprints[2].name).to.be.equal('x');
         expect(budget.sprints[3].name).to.be.equal('y');
 
-        undoRedo.popUndo();
+        undoRedo.undo();
 
         expect(budget.sprints[2].name).to.be.equal('x');
         expect(budget.sprints[3].name).to.be.equal('');
@@ -123,12 +123,12 @@ describe('UndoRedoHandler', () => {
         expect(budget.sprints.length).to.be.equal(6);
 
         for (let i = 0; i < 5; i++) {
-            undoRedo.popUndo();
+            undoRedo.undo();
         }
         expect(budget.sprints.length).to.be.equal(1);
 
         for (let i = 0; i < 5; i++) {
-            undoRedo.popRedo();
+            undoRedo.redo();
         }
         expect(budget.sprints.length).to.be.equal(6);
     });
@@ -145,7 +145,7 @@ describe('UndoRedoHandler', () => {
         budget.sprints[0].name = 'dev';
         undoRedo.stopEditing();
 
-        undoRedo.popUndo();
+        undoRedo.undo();
         expect(budget.sprints[0].name).to.be.equal('homolog');
     });
 

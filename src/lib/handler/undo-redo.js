@@ -12,7 +12,7 @@ class UndoRedoHandler {
     /**
      * Recover the existing value before the last change to to the underlying value.
      */
-    popUndo = () => {
+    undo = () => {
         this.stopEditing();
 
         if (this._undo.length < 2) {
@@ -26,7 +26,7 @@ class UndoRedoHandler {
     /**
      * Recover the existing value before the last call to popUndo.
      */
-    popRedo = () => {
+    redo = () => {
         this.stopEditing();
 
         if (this._redo.length === 0) {
