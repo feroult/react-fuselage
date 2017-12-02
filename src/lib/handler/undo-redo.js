@@ -1,6 +1,6 @@
 import * as mobx from 'mobx';
 
-class UndoRedoHandler {
+class UndoRedo {
 
     constructor(value, state) {
         this.value = value;
@@ -116,4 +116,4 @@ class UndoRedoHandler {
 
 }
 
-export default UndoRedoHandler;
+export default UndoRedo;

@@ -4,7 +4,7 @@ const UNDO_SHORTCUTS = '⌘+z, ctrl+z';
 const REDO_SHORTCUTS = '⌘+shift+z, ctrl+shift+z';
 
 
-class KeyboardHandler {
+class Keyboard {
 
     constructor(undoRedo) {
         this.contexts = [];
@@ -42,7 +42,7 @@ class EditorContext extends KeyboardContext {
         this.addKey(UNDO_SHORTCUTS, undoRedo.undo);
         this.addKey(REDO_SHORTCUTS, undoRedo.redo);
     }
-    
+
 }
 
-export default KeyboardHandler;
+export default Keyboard;
