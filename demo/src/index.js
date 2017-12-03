@@ -1,5 +1,7 @@
 import React, {Component} from 'react';
-import Editor, {Tab} from './lib/editor.js';
+import ReactDOM, {render} from 'react-dom';
+
+import Editor, {Tab} from "../../src/editor";
 
 const SprintNameCell = (props) => {
     const {value: sprint} = props;
@@ -74,7 +76,7 @@ class BudgetEditor extends Component {
     }
 }
 
-export default class Main extends Component {
+class Main extends Component {
 
     print(budget) {
         console.log('budget', this.editor.budget);
@@ -95,3 +97,5 @@ export default class Main extends Component {
         );
     }
 }
+
+ReactDOM.render(<Main/>, document.querySelector('#demo'));

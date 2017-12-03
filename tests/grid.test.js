@@ -1,10 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Editor, {Grid} from '../lib/editor';
+import Editor, {Grid} from 'src/editor';
 
-import './helper';
+import expect from 'expect';
 import {mount} from 'enzyme';
-import {expect} from 'chai';
 
 describe('GridEditor', () => {
     it('renders without crashing', () => {
@@ -34,6 +33,6 @@ describe('GridEditor', () => {
             </Editor>;
 
         const editor = mount(TestEditor);
-        expect(editor.find('span').text()).to.be.equal('dev');
+        expect(editor.find('span').text()).toEqual('dev');
     });
 });
