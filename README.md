@@ -1,10 +1,19 @@
-# react-editor-base
+# React Editor Base
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-Describe react-editor-base here.
+A full featured and extensible object editor.
+
+### Features
+
+ * Complex object support
+ * No schemas, only programmatic 
+ * Keyboard input and navigation
+ * Drag and drop sorting
+ * Undo and redo operations 
+ 
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
 [build]: https://travis-ci.org/user/repo
