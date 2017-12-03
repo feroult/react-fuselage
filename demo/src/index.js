@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 
-import Editor, {Tab} from "../../src/editor";
+import Editor, {Tab} from "../../src";
 
 const SprintNameCell = (props) => {
     const {value: sprint} = props;
