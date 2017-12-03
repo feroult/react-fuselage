@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './grid';
-import {Tab, TabGroup} from './tabs';
+import {Tab, TabGroup} from './tab';
 
 class Editor extends Component {
 
