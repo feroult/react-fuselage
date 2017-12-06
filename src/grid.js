@@ -92,11 +92,10 @@ const Grid = observer(class extends Component {
             removeRecord = (index) => this._rows.splice(index, 1),
             moveRecord = (fromIndex, toIndex) => {
                 mobx.runInAction(() => {
-                    const rows = this._rows;
-                    if (toIndex >= rows.length) {
-                        toIndex = rows.length - 1;
+                    if (toIndex >= this._rows.length) {
+                        toIndex = this._rows.length - 1;
                     }
-                    rows.splice(toIndex, 0, rows.splice(fromIndex, 1)[0]);
+                    this._rows.splice(toIndex, 0, this._rows.splice(fromIndex, 1)[0]);
                 });
             },
             gridComponent: Grid = DefaultGridComponent,
@@ -157,11 +156,11 @@ const dragAndDropDecorator = (component, moveFn) => {
 
     let fromIndex;
     drake.on('drag', (el, target, source, sibling) => {
-        fromIndex = [...el.parentElement.children].indexOf(el);
+        fromIndex = Array.from(el.parentElement.children).indexOf(el);
     });
 
     drake.on('drop', (el, target, source, sibling) => {
-        const toIndex = [...el.parentElement.children].indexOf(el);
+        const toIndex = Array.from(el.parentElement.children).indexOf(el);
         moveFn(fromIndex, toIndex);
         drake.cancel(true);
     });
