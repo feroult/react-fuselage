@@ -6,5 +6,10 @@ module.exports = {
     },
     karma: {
         testContext: 'tests/context.js',
+    },
+    webpack: {
+        html: {
+            template: 'demo/src/index.html'
+        }
     }
 };
