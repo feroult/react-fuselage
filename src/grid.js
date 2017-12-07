@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import * as mobx from 'mobx';
 import {observer} from 'mobx-react'
 import Dragula from 'react-dragula';
+import {Button} from 'semantic-ui-react'
 
 import './grid.css';
 
@@ -20,20 +21,12 @@ const cellWrapper = (Input) => {
     };
 };
 
-const RemoveButton = (props) => {
-    return <button onClick={props.action}>Remove</button>;
-};
-
-const DragButton = (props) => {
-    return <button>Drag</button>;
-};
-
 const DefaultGridComponent = class extends Component {
     render() {
         const props = this.props;
         return (
             <section>
-                <button onClick={props.addRecord}>Add</button>
+                <Button color="green" icon="add" onClick={props.addRecord}/>
                 <section className="reb-grid">
                     {props.children}
                 </section>
@@ -121,11 +114,12 @@ const Grid = observer(class extends Component {
                                 );
                             })}
                             <Column key={i + '-' + columns.length}>
-                                <RemoveButton action={() => removeRecord(i)}/>
+                                <Button.Group basic>
+                                    <Button icon="trash" color="green" onClick={() => removeRecord(i)}/>
+                                    <Button icon="move"/>
+                                </Button.Group>
                             </Column>
-                            <Column key={i + '-' + columns.length + 1}>
-                                <DragButton/>
-                            </Column>
+
                         </Row>
                     )
                 })}
@@ -208,7 +202,7 @@ const handleHorizontalNavigation = (event, grid) => {
 
 const findInput = function (grid) {
     const className = gridClassName(grid);
-    return document.getElementsByClassName(className)[0].firstChild;
+    return document.getElementsByClassName(className)[0].firstChild.firstChild;
 };
 
 const focusInput = (grid) => findInput(grid).focus();

@@ -16,7 +16,11 @@ const TabGroup = observer(({state, tabs}) => {
 
     return (
         <section>
-            <SemanticTab activeIndex={state.tab} onTabChange={onTabChange} panes={panes}/>
+            <SemanticTab
+                menu={{borderless: true, attached: true, tabular: true}}
+                activeIndex={state.tab}
+                onTabChange={onTabChange}
+                panes={panes}/>
         </section>
     );
 });

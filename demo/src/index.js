@@ -1,12 +1,16 @@
 import React, {Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 
+import {Input} from 'semantic-ui-react';
+
+import './index.css';
+
 import Editor, {Tab} from "../../src";
 
 const SprintNameCell = (props) => {
     const {value: sprint} = props;
     return (
-        <input
+        <Input
             value={sprint.name}
             onChange={e => sprint.name = e.target.value}
         />
@@ -16,7 +20,7 @@ const SprintNameCell = (props) => {
 const SprintQuantityCell = (props) => {
     const {value: sprint} = props;
     return (
-        <input
+        <Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = e.target.value}
         />
