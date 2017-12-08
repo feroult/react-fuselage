@@ -2,8 +2,8 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import * as mobx from 'mobx';
 import Handler from './handler/handler';
-import Grid from './grid';
-import {Tab, TabGroup} from './tab';
+import Grid from './Grid';
+import {Tab, TabGroup} from './Tab';
 
 class Editor extends Component {
 

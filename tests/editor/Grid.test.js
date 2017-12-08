@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Editor, {Grid} from 'src/editor/editor';
+import Editor, {Grid} from 'src/editor/Editor';
 
 import expect from 'expect';
 import {mount} from 'enzyme';
