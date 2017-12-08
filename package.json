@@ -1,7 +1,7 @@
 {
-  "name": "react-editor-base",
+  "name": "react-fuselage",
   "version": "0.1.2",
-  "description": "react-editor-base React component",
+  "description": "React Fuselage",
   "main": "lib/index.js",
   "module": "es/index.js",
   "files": [
