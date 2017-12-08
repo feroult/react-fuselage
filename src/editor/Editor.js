@@ -4,6 +4,7 @@ import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './Grid';
 import {Tab, TabGroup} from './Tab';
+import RenderUtil from '../util/render-util';
 
 class Editor extends Component {
 
@@ -22,21 +23,10 @@ class Editor extends Component {
     }
 
     _initChildren() {
-        let all = React.Children.toArray(this.props.children);
-        const tabs = [];
-        const other = [];
-        all.forEach(child => {
-            if (child.type === Tab) {
-                tabs.push(child);
-            } else {
-                other.push(child);
-            }
-        });
-
-        this.children = other;
-
-        if (tabs.length > 0) {
-            this.children.push(<TabGroup key="tab-group" state={this.handler.state} tabs={tabs}/>);
+        let children = RenderUtil.splitChildren(this.props.children, {tabs: Tab});
+        this.children = children.other;
+        if ('tabs' in children) {
+            this.children.push(<TabGroup key="tab-group" state={this.handler.state} tabs={children.tabs}/>);
         }
     }
 

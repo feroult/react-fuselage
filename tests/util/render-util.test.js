@@ -1,24 +1,30 @@
+import React, {Component} from 'react';
+
 import expect from 'expect';
 
 import RenderUtil from "src/util/render-util.js";
 
-class CompX {
-    type = CompX;
+class CompX extends Component {
 }
 
-class CompY {
-    type = CompY;
+class CompY extends Component {
 }
 
-class CompZ {
-    type = CompZ;
+class CompZ extends Component {
 }
 
 describe('RenderUtil', () => {
-
     it('splits components by type', () => {
-        const children = [new CompX(), new CompY(), new CompY(), new CompZ()];
-        const map = RenderUtil.splitChildren(children, {compX: CompX, compY: CompY});
+        const comp = (
+            <div>
+                <CompX/>
+                <CompY/>
+                <CompY/>
+                <CompZ/>
+            </div>
+        );
+
+        const map = RenderUtil.splitChildren(comp.props.children, {compX: CompX, compY: CompY});
         expect(map.compX.length).toEqual(1);
         expect(map.compY.length).toEqual(2);
         expect(map.other.length).toEqual(1);

@@ -1,8 +1,10 @@
+import React from 'react';
+
 class RenderUtil {
     static splitChildren(children, mapping) {
         const keys = Object.keys(mapping);
         const length = keys.length;
-        return children.reduce((result, child) => {
+        return React.Children.toArray(children).reduce((result, child) => {
             let i;
             for (i = 0; i < length; i++) {
                 const key = keys[i];
