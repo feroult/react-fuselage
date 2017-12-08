@@ -1,2 +1,2 @@
-export default from './editor/editor';
-export {Tab, TabGroup} from './editor/tab';
+export default from './editor/Editor';
+export {Tab, TabGroup} from './editor/Tab';

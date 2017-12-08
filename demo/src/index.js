@@ -2,9 +2,7 @@ import React, {Component} from 'react';
 import ReactDOM, {render} from 'react-dom';
 
 import BudgetEditor from './BudgetEditor';
-
-const Fuselage = (props) => <div>{props.children}</div>
-
+import Fuselage from '../../src/fuselage/Fuselage';
 
 const Home = (props) => <h1>Hello</h1>;
 
