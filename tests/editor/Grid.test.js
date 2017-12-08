@@ -17,7 +17,7 @@ describe('GridEditor', () => {
         const div = document.createElement('div');
         ReactDOM.render(<TestEditor/>, div);
     });
-
+    
     it('renders rows and columns', () => {
         const NameColumn = ({value: sprint, ...props}) => {
             return <span>{sprint.name}</span>;

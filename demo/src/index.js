@@ -10,10 +10,10 @@ class Main extends Component {
 
     render() {
         return (
-            <Fusalage>
+            <Fuselage>
                 <Fuselage.Page pattern="/" exact component={Home}/>
                 <Fuselage.Page authed pattern="/budgets" exact component={BudgetEditor}/>
-            </Fusalage>
+            </Fuselage>
         );
     }
 }
