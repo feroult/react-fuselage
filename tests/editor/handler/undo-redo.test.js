@@ -3,7 +3,7 @@ import * as mobx from 'mobx';
 
 import expect from 'expect';
 
-import UndoRedo from 'src/handler/undo-redo';
+import UndoRedo from 'src/editor/handler/undo-redo';
 
 describe('UndoRedoHandler', () => {
     it('can undo deep object changes', () => {

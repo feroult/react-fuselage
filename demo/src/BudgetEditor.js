@@ -5,7 +5,7 @@ import {Input} from 'semantic-ui-react';
 
 import './index.css';
 
-import Editor, {Tab} from "../../src";
+import Editor, {Tab} from "../../src/editor/index";
 
 const SprintNameCell = (props) => {
     const {value: sprint} = props;
