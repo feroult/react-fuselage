@@ -6,7 +6,7 @@ import {observer} from 'mobx-react'
 import Dragula from 'react-dragula';
 import {Button} from 'semantic-ui-react'
 
-import './grid.css';
+import './Grid.css';
 
 const cellWrapper = (Input) => {
     const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
