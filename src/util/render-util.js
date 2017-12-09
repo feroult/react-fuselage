@@ -17,13 +17,10 @@ class RenderUtil {
                 }
             }
             if (i === length) {
-                if (!('other' in result)) {
-                    result['other'] = [];
-                }
                 result['other'].push(child);
             }
             return result;
-        }, {});
+        }, {other: []});
 
     }
 }

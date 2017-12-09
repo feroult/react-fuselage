@@ -1,38 +1,46 @@
 import React, {Component} from 'react';
+import {BrowserRouter, Route} from 'react-router-dom';
+
+import RenderUtil from '../util/render-util';
 
 class Fuselage extends Component {
+    constructor(props) {
+        super(props);
+        this._initChildren();
+    }
 
     _initChildren() {
-        let all = React.Children.toArray(this.props.children);
-        const pages = [];
-        const other = [];
-        all.forEach(child => {
-            if (child.type === Page) {
-                pages.push(child);
-            } else {
-                other.push(lindaochild);
-            }
-        });
-
-        this.children = other;
-
-        if (tabs.length > 0) {
-            this.children.push(<PageGroup key="page-group" pages={pages}/>);
+        let children = RenderUtil.splitChildren(this.props.children, {pages: Page});
+        this.children = children.other;
+        if ('pages' in children) {
+            this.children.push(<PageGroup key="page-group" pages={children.pages}/>);
         }
     }
 
     render() {
-        return (<h1>hello</h1>);
+        return (
+            <BrowserRouter>
+                <section>
+                    {this.children}
+                </section>
+            </BrowserRouter>
+        );
     }
 
 }
 
 const PageGroup = (props) => {
-    return <div>ha</div>
+    console.log('pages', props.pages);
+    return props.pages;
 };
 
 const Page = (props) => {
-    return (<h1>hello</h1>)
+    return (
+        <Route
+            {...props}
+            component={props.component}
+        />);
+
 };
 
 Object.assign(Fuselage, {Page});

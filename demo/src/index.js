@@ -11,8 +11,8 @@ class Main extends Component {
     render() {
         return (
             <Fuselage>
-                <Fuselage.Page pattern="/" exact component={Home}/>
-                <Fuselage.Page authed pattern="/budgets" exact component={BudgetEditor}/>
+                <Fuselage.Page path="/" exact component={Home}/>
+                <Fuselage.Page authed path="/budgets" exact component={BudgetEditor}/>
             </Fuselage>
         );
     }
