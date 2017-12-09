@@ -1,18 +1,33 @@
-# React Editor Base
+# React Fuselage
 
 [![Travis][build-badge]][build]
 [![npm package][npm-badge]][npm]
 [![Coveralls][coveralls-badge]][coveralls]
 
-A full featured and extensible object editor.
+A _full_ featured base for your React Web App.
 
-### Features
+## Features
+
+# Router
+
+ * Page abstraction
+ * Menu navigation
+ * Authenticated routes
+ 
+# Middleware
+
+ * Helpers
+ * i18n 
+ * MobX stores
+
+# Object Editor
 
  * Complex object support
  * No schemas, only programmatic 
  * Keyboard input and navigation
  * Drag and drop sorting
- * Undo and redo operations 
+ * Undo and redo operations
+ * Spreadsheet like formatting 
  
 
 [build-badge]: https://img.shields.io/travis/user/repo/master.png?style=flat-square
