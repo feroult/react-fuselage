@@ -8,19 +8,19 @@ A _full_ featured base for your React Web App.
 
 ## Features
 
-# Router
+### Router
 
  * Page abstraction
  * Menu navigation
  * Authenticated routes
  
-# Middleware
+### Middleware
 
  * Helpers
  * i18n 
  * MobX stores
 
-# Object Editor
+### Object Editor
 
  * Complex object support
  * No schemas, only programmatic 
