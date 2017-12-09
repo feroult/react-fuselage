@@ -13,7 +13,11 @@ class Fuselage extends Component {
         let children = RenderUtil.splitChildren(this.props.children, {pages: Page});
         this.children = children.other;
         if ('pages' in children) {
-            this.children.push(<PageGroup key="page-group" pages={children.pages}/>);
+            this.children.push(
+                <PageGroup key="page-group">
+                    {children.pages}
+                </PageGroup>
+            );
         }
     }
 
@@ -29,9 +33,8 @@ class Fuselage extends Component {
 
 }
 
-const PageGroup = (props) => {
-    console.log('pages', props.pages);
-    return props.pages;
+const PageGroup = ({children: pages}) => {
+    return pages;
 };
 
 const Page = (props) => {

@@ -26,7 +26,11 @@ class Editor extends Component {
         let children = RenderUtil.splitChildren(this.props.children, {tabs: Tab});
         this.children = children.other;
         if ('tabs' in children) {
-            this.children.push(<TabGroup key="tab-group" state={this.handler.state} tabs={children.tabs}/>);
+            this.children.push(
+                <TabGroup key="tab-group" state={this.handler.state}>
+                    {children.tabs}
+                </TabGroup>
+            );
         }
     }
 

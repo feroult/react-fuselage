@@ -6,7 +6,7 @@ const Tab = (props) => {
     return props.children;
 };
 
-const TabGroup = observer(({state, tabs}) => {
+const TabGroup = observer(({state, children: tabs}) => {
     const panes = tabs.map((tab, index) => ({
         menuItem: tab.props.title,
         render: () => <SemanticTab.Pane>{tabs[index]}</SemanticTab.Pane>
