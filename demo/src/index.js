@@ -12,7 +12,7 @@ class Main extends Component {
         return (
             <Fuselage>
                 <Page path="/" exact component={Home}/>
-                <Page authed path="/budgets" exact component={BudgetEditor}/>
+                <Page path="/budgets" authed exact component={BudgetEditor}/>
             </Fuselage>
         );
     }
