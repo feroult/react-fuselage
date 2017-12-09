@@ -3,7 +3,7 @@ import {render, unmountComponentAtNode} from 'react-dom';
 
 import expect from 'expect';
 
-import Editor from "src/editor/Editor";
+import Editor from "src/components/editor/Editor";
 
 describe('Editor', () => {
     let node;

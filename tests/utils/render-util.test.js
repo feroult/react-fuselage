@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 
 import expect from 'expect';
 
-import RenderUtil from "src/util/render-util.js";
+import RenderUtil from "src/utils/render-util";
 
 class CompX extends Component {
 }

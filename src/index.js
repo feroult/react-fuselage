@@ -1,2 +1,2 @@
-export default from './editor/Editor';
-export {Tab, TabGroup} from './editor/Tab';
+export default from './components/editor/Editor';
+export {Tab, TabGroup} from './components/editor/Tab';

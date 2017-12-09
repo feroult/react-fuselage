@@ -1,7 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
-import RenderUtil from '../util/render-util';
+import RenderUtil from '../../utils/render-util';
 
 class Fuselage extends Component {
     constructor(props) {

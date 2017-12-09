@@ -4,7 +4,7 @@ import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './Grid';
 import {Tab, TabGroup} from './Tab';
-import RenderUtil from '../util/render-util';
+import RenderUtil from '../../utils/render-util';
 
 class Editor extends Component {
 
