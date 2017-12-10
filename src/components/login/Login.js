@@ -1,9 +1,10 @@
-import {connect} from '../utils/middleware';
+import React from "react";
+import {connect} from '../../utils/middleware';
 
 const Login = connect('session', ({sessionStore}) => {
 
     const signIn = () => {
-        sessionStore.login();
+        session.login();
     };
 
     return (
@@ -15,6 +16,5 @@ const Login = connect('session', ({sessionStore}) => {
     );
 
 });
-
 
 export default Login;
