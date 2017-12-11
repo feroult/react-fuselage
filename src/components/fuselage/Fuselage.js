@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {BrowserRouter, Route} from 'react-router-dom';
 
+import Middleware from "../../utils/middleware";
 import RenderUtil from '../../utils/render-util';
 
 class Fuselage extends Component {
@@ -22,11 +23,20 @@ class Fuselage extends Component {
     }
 
     render() {
+        const stores = this.props.stores;
+        const locale = this.props.locale;
+        const messages = this.props.messages;
+
         return (
             <BrowserRouter>
-                <section>
-                    {this.children}
-                </section>
+                <Route component={
+                    (route) =>
+                        <Middleware stores={stores} locale={locale} messages={messages} location={route.location}>
+                            <section>
+                                {this.children}
+                            </section>
+                        </Middleware>
+                }/>
             </BrowserRouter>
         );
     }

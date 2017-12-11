@@ -1,3 +1,7 @@
+import firebase from 'firebase';
+
+const firebaseAuth = firebase.auth;
+
 class SessionStore {
 
     authed = false;

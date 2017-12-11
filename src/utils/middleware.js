@@ -92,5 +92,7 @@ Middleware.childContextTypes = {
     locale: PropTypes.object
 };
 
-export {Middleware, connect};
+export default Middleware;
+
+export {connect};
 

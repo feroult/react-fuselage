@@ -90,7 +90,8 @@ function defineLanguage() {
 }
 
 function defineMessages() {
-    return require('../i18n/' + defineLanguage() + '.json');
+    // TODO: fixme
+    // return require('../i18n/' + defineLanguage() + '.json');
 }
 
 export {locale, messages, formatCurrency, formatPercent, currencySymbol, thousandsSeparator, toNumber};
