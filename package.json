@@ -32,8 +32,8 @@
     "react": "16.x"
   },
   "devDependencies": {
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "nwb": "0.20.x",
     "react": "^16.2.0",
     "react-dom": "^16.13.1"
