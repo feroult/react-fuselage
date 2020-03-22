@@ -76,17 +76,13 @@ class Middleware extends Component {
         };
     }
 
-    //     <Provider {...this.stores}>
-    //     <IntlProvider locale={this.language} messages={this.messages}>
-    //         {this.props.children}
-    //     </IntlProvider>
-    // </Provider>
-
     render() {
         return (
-            <IntlProvider locale={this.language} messages={this.messages}>
-                {this.props.children}
-            </IntlProvider>
+            <Provider {...this.stores}>
+                <IntlProvider locale={this.language} messages={this.messages}>
+                    {this.props.children}
+                </IntlProvider>
+            </Provider>
         );
     }
 

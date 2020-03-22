@@ -1,6 +1,6 @@
 {
   "name": "react-fuselage",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "React Fuselage",
   "main": "lib/index.js",
   "module": "es/index.js",
