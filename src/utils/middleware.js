@@ -1,9 +1,9 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import PropTypes from 'prop-types';
-import {inject, observer, Provider} from 'mobx-react'
-import {injectIntl, IntlProvider} from 'react-intl';
+import { inject, observer, Provider } from 'mobx-react'
+import { injectIntl, IntlProvider } from 'react-intl';
 
-import {formatCurrency, formatPercent} from './locale'
+import { formatCurrency, formatPercent } from './locale'
 
 const connect = function () {
     var args = Array.prototype.slice.call(arguments);
@@ -25,7 +25,7 @@ function injectHelpers(WrappedComponent) {
             this.helpers = {
                 formatCurrency: (value, options) => formatCurrency(this.props.intl.formatNumber, value, options),
                 formatPercent: (value, options) => formatPercent(this.props.intl.formatNumber, value, options),
-                nav: ({path, global, event}) => {
+                nav: ({ path, global, event }) => {
                     if (event && event.type === 'mousedown' && event.button === 2) {
                         return;
                     }
@@ -76,13 +76,17 @@ class Middleware extends Component {
         };
     }
 
+    //     <Provider {...this.stores}>
+    //     <IntlProvider locale={this.language} messages={this.messages}>
+    //         {this.props.children}
+    //     </IntlProvider>
+    // </Provider>
+
     render() {
         return (
-            <Provider {...this.stores}>
-                <IntlProvider locale={this.language} messages={this.messages}>
-                    {this.props.children}
-                </IntlProvider>
-            </Provider>
+            <IntlProvider locale={this.language} messages={this.messages}>
+                {this.props.children}
+            </IntlProvider>
         );
     }
 
@@ -94,5 +98,5 @@ Middleware.childContextTypes = {
 
 export default Middleware;
 
-export {connect};
+export { connect };
 

@@ -6,8 +6,7 @@ import './firebase-config';
 
 import BudgetEditor from './BudgetEditor';
 import { Fuselage, Page } from '../../src/components/fuselage/Fuselage';
-// TODO: fixme
-import SessionStore from "../../src/stores/firebase-session-store";
+import { SessionStore } from "../../src/stores/firebase-session-store";
 
 class Main extends Component {
 
