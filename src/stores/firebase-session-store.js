@@ -6,6 +6,10 @@ class SessionStore {
 
     authed = false;
 
+    static initializeApp(config) {
+        firebase.initializeApp(config);
+    }
+
     login = () => {
         const provider = new firebaseAuth.GoogleAuthProvider();
         provider.addScope('email');
