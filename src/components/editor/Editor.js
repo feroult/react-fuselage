@@ -1,9 +1,9 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './Grid';
-import {Tab, TabGroup} from './Tab';
+import { Tab, TabGroup } from './Tab';
 import RenderUtil from '../../utils/render-util';
 
 class Editor extends Component {
@@ -23,7 +23,7 @@ class Editor extends Component {
     }
 
     _initChildren() {
-        let children = RenderUtil.splitChildren(this.props.children, {tabs: Tab});
+        let children = RenderUtil.splitChildren(this.props.children, { tabs: Tab });
         this.children = children.other;
         if ('tabs' in children) {
             this.children.push(
@@ -35,7 +35,7 @@ class Editor extends Component {
     }
 
     getChildContext() {
-        return {handler: this.handler};
+        return { handler: this.handler };
     }
 
     render() {
@@ -48,6 +48,5 @@ class Editor extends Component {
 
 }
 
-Object.assign(Editor, {Grid, Tab});
-export default Editor;
-export {Grid, Tab};
+Object.assign(Editor, { Grid, Tab });
+export { Editor, Grid, Tab };

@@ -1,14 +1,13 @@
-import React, {Component} from 'react';
-import {render} from 'react-dom';
+import React, { Component } from 'react';
 
-import {Input} from 'semantic-ui-react';
+import { Input } from 'semantic-ui-react';
 
 import './index.css';
 
-import Editor, {Tab} from "../../src/index";
+import { Editor, Tab } from "../../src/index";
 
 const SprintNameCell = (props) => {
-    const {value: sprint} = props;
+    const { value: sprint } = props;
     return (
         <Input
             value={sprint.name}
@@ -18,7 +17,7 @@ const SprintNameCell = (props) => {
 };
 
 const SprintQuantityCell = (props) => {
-    const {value: sprint} = props;
+    const { value: sprint } = props;
     return (
         <Input
             value={sprint.quantity}
@@ -30,7 +29,7 @@ const SprintQuantityCell = (props) => {
 const SprintsEditor = (props) => {
     const rows = budget => budget.sprints;
     const columns = [SprintNameCell, SprintQuantityCell];
-    const newRecord = () => ({name: '', quantity: ''});
+    const newRecord = () => ({ name: '', quantity: '' });
     return <Editor.Grid
         newRecord={newRecord}
         rows={rows}
@@ -39,7 +38,7 @@ const SprintsEditor = (props) => {
 };
 
 const TeamNameCell = (props) => {
-    const {value: team} = props;
+    const { value: team } = props;
     return (
         <input
             value={team.name}
@@ -51,7 +50,7 @@ const TeamNameCell = (props) => {
 const TeamEditor = (props) => {
     const rows = budget => budget.team;
     const columns = [TeamNameCell];
-    const newRecord = () => ({name: ''});
+    const newRecord = () => ({ name: '' });
     return <Editor.Grid
         newRecord={newRecord}
         rows={rows}
@@ -70,10 +69,10 @@ class BudgetEditor extends Component {
         return (
             <Editor value={budget} ref={c => this.editor = c}>
                 <Tab title="Sprints">
-                    <SprintsEditor/>
+                    <SprintsEditor />
                 </Tab>
                 <Tab title="Team">
-                    <TeamEditor/>
+                    <TeamEditor />
                 </Tab>
             </Editor>
         );
@@ -89,13 +88,13 @@ class Main extends Component {
     render() {
         const budget = {
             name: 'budget 1',
-            sprints: [{name: 'sprint 0', quantity: 1}, {name: 'dev', quantity: 10}],
-            team: [{name: 'dev sr'}]
+            sprints: [{ name: 'sprint 0', quantity: 1 }, { name: 'dev', quantity: 10 }],
+            team: [{ name: 'dev sr' }]
         };
 
         return (
             <div>
-                <BudgetEditor budget={budget} ref={(c) => this.editor = c}/>
+                <BudgetEditor budget={budget} ref={(c) => this.editor = c} />
                 <button onClick={() => this.print(budget)}>print</button>
             </div>
         );

@@ -1,5 +1,5 @@
-import React, {Component} from 'react';
-import {BrowserRouter, Route} from 'react-router-dom';
+import React, { Component } from 'react';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 import Middleware from "../../utils/middleware";
 import RenderUtil from '../../utils/render-util';
@@ -11,7 +11,7 @@ class Fuselage extends Component {
     }
 
     _initChildren() {
-        let children = RenderUtil.splitChildren(this.props.children, {pages: Page});
+        let children = RenderUtil.splitChildren(this.props.children, { pages: Page });
         this.children = children.other;
         if ('pages' in children) {
             this.children.push(
@@ -36,14 +36,14 @@ class Fuselage extends Component {
                                 {this.children}
                             </section>
                         </Middleware>
-                }/>
+                } />
             </BrowserRouter>
         );
     }
 
 }
 
-const PageGroup = ({children: pages}) => {
+const PageGroup = ({ children: pages }) => {
     return pages;
 };
 
@@ -56,6 +56,5 @@ const Page = (props) => {
 
 };
 
-Object.assign(Fuselage, {Page});
-export default Fuselage;
-export {Page};
+Object.assign(Fuselage, { Page });
+export { Fuselage, Page };

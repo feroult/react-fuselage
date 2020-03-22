@@ -1,9 +1,9 @@
 import React from "react";
-import {connect} from '../../utils/middleware';
+import { connect } from '../../utils/middleware';
 
 import googleSigninImage from "../../assets/images/google-signin-dark.png";
 
-const Login = connect('session', ({session}) => {
+const Login = connect('session', ({ session }) => {
 
     const signIn = () => {
         session.login();
@@ -12,11 +12,11 @@ const Login = connect('session', ({session}) => {
     return (
         <div className="login-form">
             <a onClick={signIn}>
-                <img src={googleSigninImage} alt="Sign in with Google"/>
+                <img src={googleSigninImage} alt="Sign in with Google" />
             </a>
         </div>
     );
 
 });
 
-export default Login;
+export { Login };
