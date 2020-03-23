@@ -32,7 +32,7 @@ class Fuselage extends Component {
                 <Route component={
                     (route) =>
                         <Middleware stores={stores} locale={locale} messages={messages} location={route.location}>
-                            <section>
+                            <section className={this.props.className}>
                                 {this.children}
                             </section>
                         </Middleware>
