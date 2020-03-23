@@ -2,12 +2,11 @@
  * React Editor Base CSS
  */
 
-.reb-grid-cell {
+/* .reb-grid-cell {
     display: inline-block;
-    /*padding: 0.5em;*/
     padding-top: 1em;
     padding-right: 1em;
-}
+} */
 
 /**
  *  Dragula CSS

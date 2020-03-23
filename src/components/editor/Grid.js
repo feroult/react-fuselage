@@ -1,10 +1,10 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import * as mobx from 'mobx';
-import {observer} from 'mobx-react'
+import { observer } from 'mobx-react'
 import Dragula from 'react-dragula';
-import {Button} from 'semantic-ui-react'
+import * as ui from 'semantic-ui-react'
 
 import './Grid.css';
 
@@ -14,41 +14,25 @@ const cellWrapper = (Input) => {
         const className = gridClassName(props.grid);
         return (
             <div className={className}
-                 onKeyDown={(e) => handleNavigation(e, className, props.grid)}>
+                onKeyDown={(e) => handleNavigation(e, className, props.grid)}>
                 <WrappedInput {...props} />
             </div>
         );
     };
 };
 
-const DefaultGridComponent = class extends Component {
+const GridContent = class extends Component {
     render() {
         const props = this.props;
         return (
             <section>
-                <Button color="green" icon="add" onClick={props.addRecord}/>
-                <section className="reb-grid">
+                <ui.Button color="green" icon="add" onClick={props.addRecord} />
+                <ui.Grid columns="equal">
                     {props.children}
-                </section>
+                </ui.Grid>
             </section>
         );
     }
-};
-
-const DefaultGridRowComponent = (props) => {
-    return (
-        <div className="reb-grid-row">
-            {props.children}
-        </div>
-    );
-};
-
-const DefaultGridColumnComponent = (props) => {
-    return (
-        <div className="reb-grid-cell">
-            {props.children}
-        </div>
-    );
 };
 
 const Grid = observer(class extends Component {
@@ -61,6 +45,10 @@ const Grid = observer(class extends Component {
 
     get _rows() {
         return this.props.rows(this.context.handler.value);
+    }
+
+    get _headers() {
+        return this.props.headers;
     }
 
     componentDidUpdate(prevProps, prevState) {
@@ -79,10 +67,8 @@ const Grid = observer(class extends Component {
 
     render() {
         const {
-            columns,
             newRecord = () => ({}),
             addRecord = () => this._rows.push(newRecord()),
-            removeRecord = (index) => this._rows.splice(index, 1),
             moveRecord = (fromIndex, toIndex) => {
                 mobx.runInAction(() => {
                     if (toIndex >= this._rows.length) {
@@ -90,43 +76,57 @@ const Grid = observer(class extends Component {
                     }
                     this._rows.splice(toIndex, 0, this._rows.splice(fromIndex, 1)[0]);
                 });
-            },
-            gridComponent: Grid = DefaultGridComponent,
-            rowComponent: Row = DefaultGridRowComponent,
-            columnComponent: Column = DefaultGridColumnComponent
+            }
         } = this.props;
 
         return (
-            <Grid addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
-                {this._rows.map((value, i) => {
-                    return (
-                        <Row key={i}>
-                            {columns.map((Input, j) => {
-                                const grid = {
-                                    rows: this._rows.length, columns: columns.length,
-                                    row: i, column: j
-                                };
-                                const Cell = cellWrapper(Input);
-                                return (
-                                    <Column key={i + '-' + j}>
-                                        <Cell grid={grid} value={value}/>
-                                    </Column>
-                                );
-                            })}
-                            <Column key={i + '-' + columns.length}>
-                                <Button.Group basic>
-                                    <Button icon="trash" color="green" onClick={() => removeRecord(i)}/>
-                                    <Button icon="move"/>
-                                </Button.Group>
-                            </Column>
-
-                        </Row>
-                    )
-                })}
-            </Grid>
+            <GridContent addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
+                {/* {this.renderHeader()} */}
+                {this.renderRows()}
+            </GridContent>
         );
     }
 
+    renderHeader = () => {
+        return <div className="reb-grid-row">
+            {this._headers.map((header, i) => <div className="reb-grid-cell" key={i}>{header}</div>)}
+        </div>
+    }
+
+    renderRows = () => {
+        const {
+            columns,
+            removeRecord = (index) => this._rows.splice(index, 1)
+        } = this.props;
+
+        return this._rows.map((value, i) => {
+            return (
+                <ui.Grid.Row key={i}>
+                    {columns.map((Input, j) => {
+                        const grid = {
+                            rows: this._rows.length, columns: columns.length,
+                            row: i, column: j
+                        };
+                        const Cell = cellWrapper(Input);
+                        return (
+                            <ui.Grid.Column key={i + '-' + j}>
+                                <ui.Segment>
+                                    <Cell grid={grid} value={value} />
+                                </ui.Segment>
+                            </ui.Grid.Column>
+                        );
+                    })}
+                    <ui.Grid.Column key={i + '-' + columns.length}>
+                        <ui.Button.Group basic>
+                            <ui.Button icon="trash" color="green" onClick={() => removeRecord(i)} />
+                            <ui.Button icon="move" />
+                        </ui.Button.Group>
+                    </ui.Grid.Column>
+
+                </ui.Grid.Row>
+            )
+        });
+    }
 });
 
 // UI Behavior
@@ -138,7 +138,7 @@ const dragAndDropDecorator = (component, moveFn) => {
         return;
     }
 
-    const grid = ReactDOM.findDOMNode(component).querySelector('.reb-grid');
+    const grid = ReactDOM.findDOMNode(component).querySelector('.ui.grid');
 
     if (grid.getAttribute('data-reb-grid') === 'on') {
         return;
@@ -163,7 +163,7 @@ const dragAndDropDecorator = (component, moveFn) => {
 const handleVerticalNavigation = (event, grid) => {
     event.preventDefault();
 
-    let {row, column} = grid;
+    let { row, column } = grid;
 
     if (event.key === 'ArrowUp') {
         if (row === 0) {
@@ -177,13 +177,13 @@ const handleVerticalNavigation = (event, grid) => {
         row++;
     }
 
-    selectInput({row, column});
+    selectInput({ row, column });
 };
 
 const handleHorizontalNavigation = (event, grid) => {
     event.preventDefault();
 
-    let {row, column} = grid;
+    let { row, column } = grid;
 
     if (event.key === 'ArrowLeft') {
         if (column === 0) {
@@ -197,7 +197,7 @@ const handleHorizontalNavigation = (event, grid) => {
         column++;
     }
 
-    selectInput({row, column});
+    selectInput({ row, column });
 };
 
 const findInput = function (grid) {
