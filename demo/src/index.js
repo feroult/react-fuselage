@@ -5,8 +5,16 @@ import { Login } from '../../src/components/login/Login';
 import './firebase-config';
 
 import BudgetEditor from './BudgetEditor';
-import { Fuselage, Page } from '../../src/components/fuselage/Fuselage';
+import { parseMessages, Fuselage, Page } from '../../src/index';
 import { SessionStore } from "../../src/stores/firebase-session-store";
+
+import messages_en from "./i18n/en.json";
+
+const messages = {
+    'en': parseMessages(messages_en)
+};
+
+const language = 'en';
 
 class Main extends Component {
 
@@ -16,7 +24,7 @@ class Main extends Component {
         };
 
         return (
-            <Fuselage locale={{}} stores={stores}>
+            <Fuselage locale={{ language }} messages={messages[language]} stores={stores}>
                 <Page path="/" exact component={Login} />
                 <Page path="/budgets" authed exact component={BudgetEditor} />
             </Fuselage>

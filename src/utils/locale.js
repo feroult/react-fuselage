@@ -14,13 +14,13 @@ const messages = defineMessages();
 const decimalSeparator = new Intl.NumberFormat(locale.language).format(0.1)[1];
 const thousandsSeparator = new Intl.NumberFormat(locale.language).format(1000)[1];
 const currencySymbol = new
-Intl.NumberFormat(locale.language,
-    {
-        style: 'currency',
-        currency: locale.currency,
-        maximumFractionDigits: 0,
-        minimumFractionDigits: 0
-    }).format(1).replace('1', '');
+    Intl.NumberFormat(locale.language,
+        {
+            style: 'currency',
+            currency: locale.currency,
+            maximumFractionDigits: 0,
+            minimumFractionDigits: 0
+        }).format(1).replace('1', '');
 
 function toNumber(value) {
     if (typeof value === 'number') {
@@ -94,4 +94,12 @@ function defineMessages() {
     // return require('../i18n/' + defineLanguage() + '.json');
 }
 
-export {locale, messages, formatCurrency, formatPercent, currencySymbol, thousandsSeparator, toNumber};
+function parseMessages(array) {
+    const map = {}
+    array.forEach(m => {
+        map[m.id] = m.defaultMessage;
+    });
+    return map;
+}
+
+export { parseMessages, locale, messages, formatCurrency, formatPercent, currencySymbol, thousandsSeparator, toNumber };

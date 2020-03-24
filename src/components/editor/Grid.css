@@ -8,6 +8,18 @@
     padding-right: 1em;
 } */
 
+.ui.grid {
+    margin: 0;
+}
+
+/* .ui.grid>.row {
+    
+} */
+
+.ui.grid>.column:not(.row), .ui.grid>.row>.column {
+    padding-left: 0px;
+}
+
 /**
  *  Dragula CSS
  */
@@ -19,6 +31,10 @@
     opacity: 0.8;
     -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=80)";
     filter: alpha(opacity=80);
+}
+
+.gu-mirror>.column {
+    display: inline-block;
 }
 
 .gu-hide {

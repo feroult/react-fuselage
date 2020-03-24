@@ -1,10 +1,18 @@
 import React, { Component } from 'react';
 
 import { Input } from 'semantic-ui-react';
+import { defineMessages, FormattedMessage } from 'react-intl';
 
 import './index.css';
 
-import { Editor, Tab } from "../../src/index";
+import { connect, Editor, Tab } from "../../src/index";
+
+defineMessages({
+    sprintName: {
+        id: 'sprint.name',
+        defaultMessage: 'Sprint'
+    },
+});
 
 const SprintNameCell = (props) => {
     const { value: sprint } = props;
@@ -29,8 +37,10 @@ const SprintQuantityCell = (props) => {
 const SprintsEditor = (props) => {
     const rows = budget => budget.sprints;
     const columns = [SprintNameCell, SprintQuantityCell];
+    // const cols = [{ cell: SprintNameCell, title: 'sprint.name', width: 2 }];
     const newRecord = () => ({ name: '', quantity: '' });
     return <Editor.Grid
+        headers={['sprint.name']}
         newRecord={newRecord}
         rows={rows}
         columns={columns}
@@ -50,6 +60,7 @@ const TeamNameCell = (props) => {
 const TeamEditor = (props) => {
     const rows = budget => budget.team;
     const columns = [TeamNameCell];
+
     const newRecord = () => ({ name: '' });
     return <Editor.Grid
         newRecord={newRecord}
@@ -79,7 +90,7 @@ class BudgetEditor extends Component {
     }
 }
 
-class Main extends Component {
+const Main = connect(class extends Component {
 
     print(budget) {
         console.log('budget', this.editor.budget);
@@ -94,11 +105,12 @@ class Main extends Component {
 
         return (
             <div>
+                {/* <h1><FormattedMessage id="sprint.name" /></h1> */}
                 <BudgetEditor budget={budget} ref={(c) => this.editor = c} />
                 <button onClick={() => this.print(budget)}>print</button>
             </div>
         );
     }
-}
+});
 
 export default Main;

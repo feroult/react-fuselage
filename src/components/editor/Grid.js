@@ -6,6 +6,8 @@ import { observer } from 'mobx-react'
 import Dragula from 'react-dragula';
 import * as ui from 'semantic-ui-react'
 
+import { FormattedMessage } from 'react-intl';
+
 import './Grid.css';
 
 const cellWrapper = (Input) => {
@@ -27,7 +29,7 @@ const GridContent = class extends Component {
         return (
             <section>
                 <ui.Button color="green" icon="add" onClick={props.addRecord} />
-                <ui.Grid columns="equal">
+                <ui.Grid>
                     {props.children}
                 </ui.Grid>
             </section>
@@ -81,7 +83,7 @@ const Grid = observer(class extends Component {
 
         return (
             <GridContent addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
-                {/* {this.renderHeader()} */}
+                {this.renderHeader()}
                 {this.renderRows()}
             </GridContent>
         );
@@ -89,7 +91,11 @@ const Grid = observer(class extends Component {
 
     renderHeader = () => {
         return <div className="reb-grid-row">
-            {this._headers.map((header, i) => <div className="reb-grid-cell" key={i}>{header}</div>)}
+            {this._headers.map((header, i) =>
+                <div className="reb-grid-cell" key={i}>
+                    <FormattedMessage id={header} />
+                </div>
+            )}
         </div>
     }
 
@@ -109,14 +115,12 @@ const Grid = observer(class extends Component {
                         };
                         const Cell = cellWrapper(Input);
                         return (
-                            <ui.Grid.Column key={i + '-' + j}>
-                                <ui.Segment>
-                                    <Cell grid={grid} value={value} />
-                                </ui.Segment>
+                            <ui.Grid.Column key={i + '-' + j} width={2}>
+                                <Cell grid={grid} value={value} />
                             </ui.Grid.Column>
                         );
                     })}
-                    <ui.Grid.Column key={i + '-' + columns.length}>
+                    <ui.Grid.Column key={i + '-' + columns.length} width={1}>
                         <ui.Button.Group basic>
                             <ui.Button icon="trash" color="green" onClick={() => removeRecord(i)} />
                             <ui.Button icon="move" />
@@ -146,10 +150,13 @@ const dragAndDropDecorator = (component, moveFn) => {
         grid.setAttribute('data-reb-grid', 'on')
     }
 
-    const drake = Dragula([grid]);
+    const drake = Dragula([grid], {
+        mirrorContainer: grid
+    });
 
     let fromIndex;
     drake.on('drag', (el, target, source, sibling) => {
+        console.log('parent', el.parentElement);
         fromIndex = Array.from(el.parentElement.children).indexOf(el);
     });
 
