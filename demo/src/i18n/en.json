@@ -1,6 +1,3 @@
-[
-  {
-    "id": "sprint.name",
-    "defaultMessage": "Sprint"
-  }
-]
+{
+  "sprint.name": "Sprint"
+}

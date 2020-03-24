@@ -94,12 +94,4 @@ function defineMessages() {
     // return require('../i18n/' + defineLanguage() + '.json');
 }
 
-function parseMessages(array) {
-    const map = {}
-    array.forEach(m => {
-        map[m.id] = m.defaultMessage;
-    });
-    return map;
-}
-
-export { parseMessages, locale, messages, formatCurrency, formatPercent, currencySymbol, thousandsSeparator, toNumber };
+export { locale, messages, formatCurrency, formatPercent, currencySymbol, thousandsSeparator, toNumber };

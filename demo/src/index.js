@@ -5,13 +5,13 @@ import { Login } from '../../src/components/login/Login';
 import './firebase-config';
 
 import BudgetEditor from './BudgetEditor';
-import { parseMessages, Fuselage, Page } from '../../src/index';
+import { Fuselage, Page } from '../../src/index';
 import { SessionStore } from "../../src/stores/firebase-session-store";
 
 import messages_en from "./i18n/en.json";
 
 const messages = {
-    'en': parseMessages(messages_en)
+    'en': messages_en
 };
 
 const language = 'en';
