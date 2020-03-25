@@ -90,7 +90,6 @@ const Main = connect(class extends Component {
 
         return (
             <div>
-                {/* <h1><FormattedMessage id="sprint.name" /></h1> */}
                 <BudgetEditor budget={budget} ref={(c) => this.editor = c} />
                 <button onClick={() => this.print(budget)}>print</button>
             </div>
