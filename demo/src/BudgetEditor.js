@@ -30,9 +30,13 @@ const SprintQuantityCell = (props) => {
 const SprintsEditor = (props) => {
     const rows = budget => budget.sprints;
     const columns = [SprintNameCell, SprintQuantityCell];
-    // const cols = [{ cell: SprintNameCell, title: 'sprint.name', width: 2 }];
+    const cols = [
+        { cell: SprintNameCell, key: 'sprint.name', width: 2 },
+        { cell: SprintQuantityCell, key: 'sprint.quantity', width: 2 }
+    ];
     const newRecord = () => ({ name: '', quantity: '' });
     return <Editor.Grid
+        cols={cols}
         headers={['sprint.name', 'sprint.name']}
         newRecord={newRecord}
         rows={rows}

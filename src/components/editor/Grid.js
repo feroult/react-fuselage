@@ -84,11 +84,12 @@ const Grid = observer(class extends Component {
     }
 
     renderHeader = () => {
-        return <ui.Grid.Row>
-            {this._headers.map((header, i) =>
-                <ui.Grid.Column key={i} width={2}>
+        const { cols } = this.props;
+         return <ui.Grid.Row>
+            {cols.map(col =>
+                <ui.Grid.Column key={col.key} width={col.width}>
                     <ui.Label circular size='large' color='blue'>
-                        <FormattedMessage id={header} />
+                        <FormattedMessage id={col.key} />
                     </ui.Label>
                 </ui.Grid.Column>
             )}
@@ -97,6 +98,7 @@ const Grid = observer(class extends Component {
 
     renderRows = () => {
         const {
+            cols,
             columns,
             removeRecord = (index) => this._rows.splice(index, 1)
         } = this.props;
@@ -104,19 +106,19 @@ const Grid = observer(class extends Component {
         return this._rows.map((value, i) => {
             return (
                 <ui.Grid.Row key={i}>
-                    {columns.map((Input, j) => {
+                    {cols.map((col, j) => {
                         const grid = {
-                            rows: this._rows.length, columns: columns.length,
+                            rows: this._rows.length, columns: cols.length,
                             row: i, column: j
                         };
-                        const Cell = cellWrapper(Input);
+                        const Cell = cellWrapper(col.cell);
                         return (
-                            <ui.Grid.Column key={i + '-' + j} width={2}>
+                            <ui.Grid.Column key={i + '-' + j} width={col.width}>
                                 <Cell grid={grid} value={value} />
                             </ui.Grid.Column>
                         );
                     })}
-                    <ui.Grid.Column key={i + '-' + columns.length} width={1}>
+                    <ui.Grid.Column key={i + '-' + cols.length} width={1}>
                         <ui.Button.Group basic>
                             <ui.Button icon="trash" color="green" onClick={() => removeRecord(i)} />
                             <ui.Button icon="move" />
