@@ -55,18 +55,6 @@ const TeamNameCell = (props) => {
     );
 };
 
-const TeamEditor = (props) => {
-    const rows = budget => budget.team;
-    const columns = [TeamNameCell];
-
-    const newRecord = () => ({ name: '' });
-    return <Editor.Grid
-        newRecord={newRecord}
-        rows={rows}
-        columns={columns}
-    />;
-};
-
 class BudgetEditor extends Component {
 
     get budget() {
@@ -97,8 +85,7 @@ const Main = connect(class extends Component {
     render() {
         const budget = {
             name: 'budget 1',
-            sprints: [{ name: 'sprint 0', quantity: 1 }, { name: 'dev', quantity: 10 }],
-            team: [{ name: 'dev sr' }]
+            sprints: [{ name: 'sprint 0', quantity: 1 }, { name: 'dev', quantity: 10 }]
         };
 
         return (
