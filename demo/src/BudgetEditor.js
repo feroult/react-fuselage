@@ -33,7 +33,7 @@ const SprintsEditor = (props) => {
     // const cols = [{ cell: SprintNameCell, title: 'sprint.name', width: 2 }];
     const newRecord = () => ({ name: '', quantity: '' });
     return <Editor.Grid
-        headers={['sprint.name']}
+        headers={['sprint.name', 'sprint.name']}
         newRecord={newRecord}
         rows={rows}
         columns={columns}

@@ -86,8 +86,10 @@ const Grid = observer(class extends Component {
     renderHeader = () => {
         return <ui.Grid.Row>
             {this._headers.map((header, i) =>
-                <ui.Grid.Column key={i}>
-                    <FormattedMessage id={header} />
+                <ui.Grid.Column key={i} width={2}>
+                    <ui.Label circular size='large' color='blue'>
+                        <FormattedMessage id={header} />
+                    </ui.Label>
                 </ui.Grid.Column>
             )}
         </ui.Grid.Row>
