@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import { Input } from 'semantic-ui-react';
-import { defineMessages, FormattedMessage } from 'react-intl';
 
 import './index.css';
 
@@ -76,12 +75,12 @@ class BudgetEditor extends Component {
         const budget = this.props.budget;
         return (
             <Editor value={budget} ref={c => this.editor = c}>
-                <Tab title="Sprints">
+                <Tab title="tab1">
                     <SprintsEditor />
                 </Tab>
-                {/* <Tab title="Team">
-                    <TeamEditor />
-                </Tab> */}
+                <Tab title="tab2">
+                    <SprintsEditor />
+                </Tab>
             </Editor>
         );
     }

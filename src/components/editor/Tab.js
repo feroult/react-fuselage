@@ -1,14 +1,16 @@
 import React from 'react';
-import {Tab as SemanticTab} from 'semantic-ui-react'
-import {observer} from 'mobx-react'
+import { Tab as SemanticTab } from 'semantic-ui-react'
+
+import { connect } from '../../utils/middleware'
 
 const Tab = (props) => {
     return props.children;
 };
 
-const TabGroup = observer(({state, children: tabs}) => {
+const TabGroup = connect(({ state, children: tabs, intl }) => {
+
     const panes = tabs.map((tab, index) => ({
-        menuItem: tab.props.title,
+        menuItem: intl.formatMessage({ id: tab.props.title }),
         render: () => <SemanticTab.Pane>{tabs[index]}</SemanticTab.Pane>
     }));
 
@@ -17,13 +19,13 @@ const TabGroup = observer(({state, children: tabs}) => {
     return (
         <section>
             <SemanticTab
-                menu={{borderless: true, attached: true, tabular: true}}
+                menu={{ borderless: true, attached: true, tabular: true }}
                 activeIndex={state.tab}
                 onTabChange={onTabChange}
-                panes={panes}/>
+                panes={panes} />
         </section>
     );
 });
 
 
-export {Tab, TabGroup};
+export { Tab, TabGroup };
