@@ -71,10 +71,10 @@ const Grid = observer(class extends Component {
         return (
             <div>
                 <ui.Button color="green" icon="add" onClick={addRecord} />
-                <ui.Grid>
+                <ui.Grid className="labels">
                     {this.renderHeader()}
                 </ui.Grid>
-                <section ref={c => dragAndDropDecorator(c, moveRecord)}>
+                <section className="fields" ref={c => dragAndDropDecorator(c, moveRecord)}>
                     <ui.Grid>
                         {this.renderRows()}
                     </ui.Grid>
@@ -84,13 +84,13 @@ const Grid = observer(class extends Component {
     }
 
     renderHeader = () => {
-        return <div className="reb-grid-row">
+        return <ui.Grid.Row>
             {this._headers.map((header, i) =>
-                <div className="reb-grid-cell" key={i}>
+                <ui.Grid.Column key={i}>
                     <FormattedMessage id={header} />
-                </div>
+                </ui.Grid.Column>
             )}
-        </div>
+        </ui.Grid.Row>
     }
 
     renderRows = () => {
