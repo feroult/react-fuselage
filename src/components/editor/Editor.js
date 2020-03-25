@@ -19,7 +19,6 @@ class Editor extends Component {
     }
 
     get value() {
-        console.log('original', this.props.value);
         return mobx.toJS(this.handler.value);
     }
 
@@ -49,7 +48,7 @@ class Editor extends Component {
 
 }
 
-const diff = (arr1, arr2) => {
+const diffArrays = (arr1, arr2, idField) => {
     const inserted = [];
     const updated = [];
     const deleted = [];
@@ -57,22 +56,22 @@ const diff = (arr1, arr2) => {
     const keys1 = {};
     const keys2 = {};
 
-    arr1.forEach(item => keys1[item.user_id] = item);
-    arr2.forEach(item => keys2[item.user_id] = item);
+    arr1.forEach(item => keys1[item[idField]] = item);
+    arr2.forEach(item => keys2[item[idField]] = item);
 
     arr1.forEach(item => {
-        const obj = keys2[item.user_id]
-        if (!obj) {
+        const other = keys2[item[idField]]
+        if (!other) {
             deleted.push(item);
         } else {
-            if (obj.username !== item.username || obj.location !== item.location) {
+            if (other.username !== item.username || other.location !== item.location) {
                 updated.push(item);
             }
         }
     });
 
     arr2.forEach(item => {
-        if (!keys1[item.user_id]) {
+        if (!keys1[item[idField]]) {
             inserted.push(item);
         }
     });
