@@ -28,7 +28,7 @@ const SprintQuantityCell = (props) => {
     );
 };
 
-const SprintsEditor = (props) => {
+const SprintsEditor = () => {
     const rows = budget => budget.sprints;
     const cols = [
         { cell: SprintNameCell, key: 'sprint.name', width: 2 },
