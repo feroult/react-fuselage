@@ -19,7 +19,7 @@ class Editor extends Component {
     }
 
     get value() {
-        console.log('original', props.value);
+        console.log('original', this.props.value);
         return mobx.toJS(this.handler.value);
     }
 
