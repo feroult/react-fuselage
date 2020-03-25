@@ -70,7 +70,7 @@ const Grid = observer(class extends Component {
 
         return (
             <div>
-                <ui.Button color="green" icon="add" onClick={addRecord} />
+                <ui.Button color="green" icon="add" basic onClick={addRecord} />
                 <ui.Grid className="labels">
                     {this.renderHeader()}
                 </ui.Grid>
@@ -86,6 +86,7 @@ const Grid = observer(class extends Component {
     renderHeader = () => {
         const { cols } = this.props;
         return <ui.Grid.Row>
+            <div className="drag" />
             {cols.map(col =>
                 <ui.Grid.Column key={col.key} width={col.width}>
                     <ui.Label size='large' pointing='below'>
@@ -106,6 +107,7 @@ const Grid = observer(class extends Component {
         return this._rows.map((value, i) => {
             return (
                 <ui.Grid.Row key={i}>
+                    <ui.Button icon="bars" basic className="drag" textAlign="right" />
                     {cols.map((col, j) => {
                         const grid = {
                             rows: this._rows.length, columns: cols.length,
@@ -119,12 +121,8 @@ const Grid = observer(class extends Component {
                         );
                     })}
                     <ui.Grid.Column key={i + '-' + cols.length} width={1}>
-                        <ui.Button.Group basic>
-                            <ui.Button icon="trash" color="green" onClick={() => removeRecord(i)} />
-                            <ui.Button icon="move" />
-                        </ui.Button.Group>
+                        <ui.Button icon="trash" color="red" basic onClick={() => removeRecord(i)} />
                     </ui.Grid.Column>
-
                 </ui.Grid.Row>
             )
         });

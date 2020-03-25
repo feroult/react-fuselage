@@ -14,6 +14,13 @@
     padding-left: 0px;
 }
 
+.ui.grid>.row>.drag {
+    box-shadow: none;
+    width: 30px;
+    padding: 0;
+    margin: 0;
+}
+
 /**
  *  Dragula CSS
  */
