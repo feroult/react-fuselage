@@ -6,6 +6,8 @@ import Grid from './Grid';
 import { Tab, TabGroup } from './Tab';
 import RenderUtil from '../../utils/render-util';
 
+const ARRAY_ID_CONTROL = '__fuse_id';
+
 class Editor extends Component {
 
     static childContextTypes = {
@@ -14,12 +16,17 @@ class Editor extends Component {
 
     constructor(props) {
         super(props);
-        this.handler = new Handler(props.value);
+        this.backup = controlArrays(props.value);
+        this.handler = new Handler(this.backup);
         this._initChildren();
     }
 
     get value() {
-        return mobx.toJS(this.handler.value);
+        return releaseArrays(mobx.toJS(this.handler.value));
+    }
+
+    diff(arrayId) {
+        return diffArrays(this.backup[arrayId], mobx.toJS(this.handler.value)[arrayId], ARRAY_ID_CONTROL);
     }
 
     _initChildren() {
@@ -48,6 +55,28 @@ class Editor extends Component {
 
 }
 
+const controlArrays = (obj) => {
+    const object = Object.assign({}, obj);
+    const values = Object.values(object)
+    for (const value of values) {
+        if (Array.isArray(value)) {
+            value.forEach((el, i) => el[ARRAY_ID_CONTROL] = i);
+        }
+    }
+    return object;
+}
+
+const releaseArrays = (obj) => {
+    const object = Object.assign({}, obj);
+    const values = Object.values(object)
+    for (const value of values) {
+        if (Array.isArray(value)) {
+            value.forEach(el => delete el[ARRAY_ID_CONTROL]);
+        }
+    }
+    return object;
+}
+
 const diffArrays = (arr1, arr2, idField) => {
     const inserted = [];
     const updated = [];
@@ -56,16 +85,20 @@ const diffArrays = (arr1, arr2, idField) => {
     const keys1 = {};
     const keys2 = {};
 
-    arr1.forEach(item => keys1[item[idField]] = item);
-    arr2.forEach(item => keys2[item[idField]] = item);
+    arr1.forEach(item => keys1[item[idField]] = Object.assign({}, item));
+    arr2.forEach(item => keys2[item[idField]] = Object.assign({}, item));
 
     arr1.forEach(item => {
         const other = keys2[item[idField]]
         if (!other) {
             deleted.push(item);
         } else {
-            if (other.username !== item.username || other.location !== item.location) {
-                updated.push(item);
+            const obj1 = Object.assign({}, item);
+            delete obj1[idField];
+            const obj2 = Object.assign({}, other);
+            delete obj2[idField];
+            if (JSON.stringify(obj1) !== JSON.stringify(obj2)) {
+                updated.push(other);
             }
         }
     });
@@ -76,7 +109,7 @@ const diffArrays = (arr1, arr2, idField) => {
         }
     });
 
-    return { inserted, updated, deleted }
+    return releaseArrays({ inserted, updated, deleted });
 }
 
 

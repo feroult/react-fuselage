@@ -5,7 +5,7 @@ import { Login } from '../../src/components/login/Login';
 import './firebase-config';
 
 import BudgetEditor from './BudgetEditor';
-import { Fuselage, Page } from '../../src/index';
+import { Fuselage } from '../../src/index';
 import { SessionStore } from "../../src/stores/firebase-session-store";
 
 import messages_en from "./i18n/en.json";
@@ -25,8 +25,8 @@ class Main extends Component {
 
         return (
             <Fuselage locale={{ language }} messages={messages[language]} stores={stores}>
-                <Page path="/" exact component={Login} />
-                <Page path="/budgets" authed exact component={BudgetEditor} />
+                <Fuselage.Page path="/" exact component={Login} />
+                <Fuselage.Page path="/budgets" authed exact component={BudgetEditor} />
             </Fuselage>
         );
     }

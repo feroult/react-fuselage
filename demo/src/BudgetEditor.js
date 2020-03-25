@@ -1,15 +1,15 @@
 import React, { Component } from 'react';
 
-import { Input } from 'semantic-ui-react';
+import * as ui from 'semantic-ui-react';
 
 import './index.css';
 
-import { connect, Editor, Tab } from "../../src/index";
+import { connect, Editor } from "../../src/index";
 
 const SprintNameCell = (props) => {
     const { value: sprint } = props;
     return (
-        <Input
+        <ui.Input
             value={sprint.name}
             onChange={e => sprint.name = e.target.value}
             fluid
@@ -20,7 +20,7 @@ const SprintNameCell = (props) => {
 const SprintQuantityCell = (props) => {
     const { value: sprint } = props;
     return (
-        <Input
+        <ui.Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = e.target.value}
             fluid
@@ -42,32 +42,26 @@ const SprintsEditor = () => {
     />;
 };
 
-const TeamNameCell = (props) => {
-    const { value: team } = props;
-    return (
-        <input
-            value={team.name}
-            onChange={e => team.name = e.target.value}
-        />
-    );
-};
-
 class BudgetEditor extends Component {
 
     get budget() {
         return this.editor.value;
     }
 
+    get changes() {
+        return this.editor.diff('sprints')
+    }
+
     render() {
         const budget = this.props.budget;
         return (
             <Editor value={budget} ref={c => this.editor = c}>
-                <Tab title="tab1">
+                <Editor.Tab title="tab1">
                     <SprintsEditor />
-                </Tab>
-                <Tab title="tab2">
+                </Editor.Tab>
+                <Editor.Tab title="tab2">
                     <SprintsEditor />
-                </Tab>
+                </Editor.Tab>
             </Editor>
         );
     }
@@ -75,8 +69,8 @@ class BudgetEditor extends Component {
 
 const Main = connect(class extends Component {
 
-    print(budget) {
-        console.log('budget', this.editor.budget);
+    show(budget) {
+        console.log('budget', this.editor.changes);
     }
 
     render() {
@@ -88,7 +82,8 @@ const Main = connect(class extends Component {
         return (
             <div>
                 <BudgetEditor budget={budget} ref={(c) => this.editor = c} />
-                <button onClick={() => this.print(budget)}>print</button>
+                <ui.Divider />
+                <ui.Button onClick={() => this.show()}>Show</ui.Button>
             </div>
         );
     }
