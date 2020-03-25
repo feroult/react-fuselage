@@ -1,20 +1,14 @@
-/**
- * React Editor Base CSS
- */
-
-/* .reb-grid-cell {
-    display: inline-block;
-    padding-top: 1em;
-    padding-right: 1em;
-} */
-
 .ui.grid {
     margin: 0;
 }
 
-/* .ui.grid>.row {
-    
-} */
+.ui.grid.labels {
+    margin-bottom: -15px;
+}
+
+.ui.grid>.row {
+    padding-bottom: 0;
+}
 
 .ui.grid>.column:not(.row), .ui.grid>.row>.column {
     padding-left: 0px;

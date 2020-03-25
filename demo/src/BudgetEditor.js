@@ -12,6 +12,7 @@ const SprintNameCell = (props) => {
         <Input
             value={sprint.name}
             onChange={e => sprint.name = e.target.value}
+            fluid
         />
     );
 };
@@ -22,6 +23,7 @@ const SprintQuantityCell = (props) => {
         <Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = e.target.value}
+            fluid
         />
     );
 };
@@ -31,7 +33,7 @@ const SprintsEditor = (props) => {
     const columns = [SprintNameCell, SprintQuantityCell];
     const cols = [
         { cell: SprintNameCell, key: 'sprint.name', width: 2 },
-        { cell: SprintQuantityCell, key: 'sprint.quantity', width: 2 }
+        { cell: SprintQuantityCell, key: 'sprint.quantity', width: 1 }
     ];
     const newRecord = () => ({ name: '', quantity: '' });
     return <Editor.Grid
