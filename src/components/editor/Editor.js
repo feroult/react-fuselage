@@ -19,6 +19,7 @@ class Editor extends Component {
     }
 
     get value() {
+        console.log('original', props.value);
         return mobx.toJS(this.handler.value);
     }
 
@@ -47,6 +48,38 @@ class Editor extends Component {
     }
 
 }
+
+const diff = (arr1, arr2) => {
+    const inserted = [];
+    const updated = [];
+    const deleted = [];
+
+    const keys1 = {};
+    const keys2 = {};
+
+    arr1.forEach(item => keys1[item.user_id] = item);
+    arr2.forEach(item => keys2[item.user_id] = item);
+
+    arr1.forEach(item => {
+        const obj = keys2[item.user_id]
+        if (!obj) {
+            deleted.push(item);
+        } else {
+            if (obj.username !== item.username || obj.location !== item.location) {
+                updated.push(item);
+            }
+        }
+    });
+
+    arr2.forEach(item => {
+        if (!keys1[item.user_id]) {
+            inserted.push(item);
+        }
+    });
+
+    return { inserted, updated, deleted }
+}
+
 
 Object.assign(Editor, { Grid, Tab });
 export { Editor, Grid, Tab };
