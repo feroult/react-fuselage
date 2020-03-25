@@ -7,13 +7,6 @@ import './index.css';
 
 import { connect, Editor, Tab } from "../../src/index";
 
-// defineMessages({
-//     sprintName: {
-//         id: 'sprint.name',
-//         defaultMessage: 'Sprint'
-//     },
-// });
-
 const SprintNameCell = (props) => {
     const { value: sprint } = props;
     return (
@@ -82,9 +75,9 @@ class BudgetEditor extends Component {
                 <Tab title="Sprints">
                     <SprintsEditor />
                 </Tab>
-                <Tab title="Team">
+                {/* <Tab title="Team">
                     <TeamEditor />
-                </Tab>
+                </Tab> */}
             </Editor>
         );
     }

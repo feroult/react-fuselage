@@ -23,19 +23,6 @@ const cellWrapper = (Input) => {
     };
 };
 
-const GridContent = class extends Component {
-    render() {
-        const props = this.props;
-        return (
-            <section>
-                <ui.Button color="green" icon="add" onClick={props.addRecord} />
-                <ui.Grid>
-                    {props.children}
-                </ui.Grid>
-            </section>
-        );
-    }
-};
 
 const Grid = observer(class extends Component {
 
@@ -82,10 +69,17 @@ const Grid = observer(class extends Component {
         } = this.props;
 
         return (
-            <GridContent addRecord={addRecord} ref={(component) => dragAndDropDecorator(component, moveRecord)}>
-                {this.renderHeader()}
-                {this.renderRows()}
-            </GridContent>
+            <div>
+                <ui.Button color="green" icon="add" onClick={addRecord} />
+                <ui.Grid>
+                    {this.renderHeader()}
+                </ui.Grid>
+                <section ref={c => dragAndDropDecorator(c, moveRecord)}>
+                    <ui.Grid>
+                        {this.renderRows()}
+                    </ui.Grid>
+                </section>
+            </div>
         );
     }
 
