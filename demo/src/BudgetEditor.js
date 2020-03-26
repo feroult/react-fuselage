@@ -34,12 +34,12 @@ const SprintsEditor = () => {
         { cell: SprintNameCell, key: 'sprint.name', width: 2 },
         { cell: SprintQuantityCell, key: 'sprint.quantity', width: 1 }
     ];
-    const createRecord = () => ({ name: '', quantity: '' });
+    const newRecord = () => ({ name: '', quantity: '' });
     const validateRecord = (sprint) => {
         return false;
     };
     return <Editor.Grid
-        createRecord={createRecord}
+        newRecord={newRecord}
         validateRecord={validateRecord}
         enableRemove
         rows={rows}
