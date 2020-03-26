@@ -88,7 +88,7 @@ const Grid = observer(class extends Component {
         return <ui.Grid.Row>
             <div className="drag" />
             {cols.map(col =>
-                <ui.Grid.Column key={col.key} width={col.width}  textAlign="center">
+                <ui.Grid.Column key={col.key} width={col.width} textAlign="center">
                     <ui.Label size='large' pointing='below'>
                         <FormattedMessage id={col.key} />
                     </ui.Label>
@@ -107,7 +107,7 @@ const Grid = observer(class extends Component {
         return this._rows.map((value, i) => {
             return (
                 <ui.Grid.Row key={i}>
-                    <ui.Button icon="bars" basic className="drag"/>
+                    <ui.Button icon="bars" basic className="drag" />
                     {cols.map((col, j) => {
                         const grid = {
                             rows: this._rows.length, columns: cols.length,
