@@ -2,6 +2,7 @@ import * as mobx from 'mobx';
 
 import Keyboard from './keyboard';
 import UndoRedo from './undo-redo';
+import Validator from './validator';
 
 const initialState = {
     tab: 0
@@ -13,6 +14,7 @@ class Handler {
         this.value = mobx.extendObservable({}, value);
         this.undoRedo = new UndoRedo(this.value, this.state);
         this.keyboard = new Keyboard(this.undoRedo);
+        this.validator = new Validator();
     }
 
     onFocus = (event) => {

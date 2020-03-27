@@ -100,9 +100,10 @@ const Grid = observer(class extends Component {
     renderRows = () => {
         const {
             cols,
-            columns,
             removeRecord = (index) => this._rows.splice(index, 1)
         } = this.props;
+
+        const { validator } = this.context.handler;
 
         return this._rows.map((value, i) => {
             return (
@@ -116,7 +117,7 @@ const Grid = observer(class extends Component {
                         const Cell = cellWrapper(col.cell);
                         return (
                             <ui.Grid.Column key={i + '-' + j} width={col.width}>
-                                <Cell grid={grid} value={value} />
+                                <Cell grid={grid} value={value} error={validator.errorFn(i)} />
                             </ui.Grid.Column>
                         );
                     })}

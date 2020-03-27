@@ -7,12 +7,13 @@ import './index.css';
 import { connect, Editor } from "../../src/index";
 
 const SprintNameCell = (props) => {
-    const { value: sprint } = props;
+    const { value: sprint, error } = props;
     return (
         <ui.Input
             value={sprint.name}
             onChange={e => sprint.name = e.target.value}
             fluid
+            error={error('sprint.name')}
         />
     );
 };
