@@ -1,7 +1,9 @@
+import * as mobx from 'mobx';
+
 class Validator {
 
     constructor() {
-        this.errors = {};
+        this.errors = mobx.observable({});
     }
 
     grid = (array, fn) => {
@@ -9,7 +11,7 @@ class Validator {
             const scoped = new Validator();
             fn(el, scoped);
             Object.keys(scoped.errors)
-                .forEach(key => this.errors[key + '.' + index] = scoped.errors[key]);
+                .forEach(key => this.errors[errorKey(key, index)] = scoped.errors[key]);
         });
     }
 
@@ -25,9 +27,12 @@ class Validator {
         }
     }
 
-    errorFn = () => {
-        return () => true;
+    errorFn = (index) => {
+        return (key) => errorKey(key, index) in this.errors;
     }
 
 }
+
+const errorKey = (key, index) => index ? `${key}.${index}` : key;
+
 export default Validator;
