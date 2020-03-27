@@ -19,12 +19,13 @@ const SprintNameCell = (props) => {
 };
 
 const SprintQuantityCell = (props) => {
-    const { value: sprint } = props;
+    const { value: sprint, error } = props;
     return (
         <ui.Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = e.target.value}
             fluid
+            error={error('sprint.quantity')}
         />
     );
 };
