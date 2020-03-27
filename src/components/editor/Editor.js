@@ -31,7 +31,9 @@ class Editor extends Component {
     }
 
     validate() {
-        this.props.validate && this.props.validate(new Validator(), this.value);
+        const validator = new Validator();
+        this.props.validate && this.props.validate(validator, this.value);
+        console.log('errors', validator.errors);
     }
 
     _initChildren() {
