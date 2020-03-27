@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import * as mobx from 'mobx';
 import Handler from './handler/handler';
 import Grid from './Grid';
+import Validator from './handler/validator';
 import { Tab, TabGroup } from './Tab';
 import RenderUtil from '../../utils/render-util';
 
@@ -27,6 +28,10 @@ class Editor extends Component {
 
     diff(arrayId) {
         return diffArrays(this.backup[arrayId], mobx.toJS(this.handler.value)[arrayId], ARRAY_ID_CONTROL);
+    }
+
+    validate() {
+        this.props.validate && this.props.validate(new Validator(), this.value);
     }
 
     _initChildren() {

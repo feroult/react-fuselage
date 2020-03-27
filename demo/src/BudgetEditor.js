@@ -49,13 +49,26 @@ class BudgetEditor extends Component {
     }
 
     get changes() {
-        return this.editor.diff('sprints')
+        return this.editor.diff('sprints');
+    }
+
+    validate() {
+        this.editor.validate();
+    }
+
+    validateBudget = ({ grid }, budget) => {
+        grid(budget.sprints, this.validateSprint);
+    }
+
+    validateSprint = (sprint, { notEmpty, isInteger }) => {
+        notEmpty('sprint.name', sprint.name);
+        isInteger('sprint.quantity', sprint.quantity);
     }
 
     render() {
         const budget = this.props.budget;
         return (
-            <Editor value={budget} ref={c => this.editor = c}>
+            <Editor value={budget} ref={c => this.editor = c} validate={this.validateBudget}>
                 <Editor.Tab title="tab1">
                     <SprintsEditor />
                 </Editor.Tab>
@@ -69,8 +82,12 @@ class BudgetEditor extends Component {
 
 const Main = connect(class extends Component {
 
-    show(budget) {
+    show() {
         console.log('budget', this.editor.changes);
+    }
+
+    validate() {
+        this.editor.validate();
     }
 
     render() {
@@ -82,8 +99,11 @@ const Main = connect(class extends Component {
         return (
             <div>
                 <BudgetEditor budget={budget} ref={(c) => this.editor = c} />
-                <ui.Divider />
-                <ui.Button onClick={() => this.show()}>Show</ui.Button>
+                <br />
+                <ui.ButtonGroup basic>
+                    <ui.Button onClick={() => this.show()}>Show</ui.Button>
+                    <ui.Button onClick={() => this.validate()}>Validate</ui.Button>
+                </ui.ButtonGroup>
             </div>
         );
     }
