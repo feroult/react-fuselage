@@ -3,12 +3,16 @@ import * as mobx from 'mobx';
 class Validator {
 
     constructor() {
-        this.errors = mobx.observable({});
+        this.state = mobx.observable({ errors: {} });
         this.validators = {};
     }
 
-    register = (id, valueFn, validator) => {
-        this.validators[id] = { valueFn, validator };
+    get errors() {
+        return this.state.errors;
+    }
+
+    register = (id, valueFn, validate) => {
+        this.validators[id] = { valueFn, validate };
     }
 
     unregister = (id) => {
@@ -16,47 +20,34 @@ class Validator {
     }
 
     validate = () => {
-        Object.values(this.validators).forEach(v => {
-            if (!v.validator) {
-                return;
+        this.state.errors = {};
+        for (const [id, { valueFn, validate }] of Object.entries(this.validators)) {
+            if (!validate) {
+                continue;
             }
-            const value = v.valueFn();
+            const scope = new ValidateScope();
+            const value = valueFn();
             if (Array.isArray(value)) {
-                value.forEach(item => v.validator(item, this));
+                this.validateGrid(value, validate, scope);
             } else {
-                v.validator(value, this);
+                validate(value, scope);
             }
+            this.state.errors[id] = scope.errors;
+        };
+    }
+
+    validateGrid = (array, validate, scope) => {
+        array.forEach((item, index) => {
+            const itemScope = new ValidateScope();
+            validate(item, itemScope);
+            itemScope.errors.forEach(e => e.index = index);
+            scope.errors = scope.errors.concat(itemScope.errors);
         });
     }
-
-    // validators
-
-    grid = (array, fn) => {
-        array.forEach((el, index) => {
-            const scoped = new Validator();
-            fn(el, scoped);
-            Object.keys(scoped.errors)
-                .forEach(key => this.errors[errorKey(key, index)] = scoped.errors[key]);
-        });
-    }
-
-
-    notEmpty = (key, value) => {
-        if (!(value && /\S/.test(value))) {
-            this.errors[key] = 'not-empty';
-        }
-    }
-
-    isInteger = (key, value) => {
-        if (!Number.isInteger(value)) {
-            this.errors[key] = 'is-integer';
-        }
-    }
-
-    // errors
 
     errorFn = (index) => {
-        return (key) => errorKey(key, index) in this.errors;
+        // return (key) => errorKey(key, index) in this.errors;
+        return () => false;
     }
 
     moveGridRecord = (fromIndex, toIndex) => {
@@ -71,13 +62,30 @@ class Validator {
                 toErrors.push({ key, error })
             }
         }
-
-
         console.log('here', fromIndex, toIndex);
     }
-
-
 }
+
+class ValidateScope {
+    constructor() {
+        this.errors = [];
+    }
+
+    _addError = (id, info) => this.errors.push({ id, ...info });
+
+    notEmpty = (id, value) => {
+        if (!(value && /\S/.test(value))) {
+            this._addError(id, { type: 'not-empty' });
+        }
+    }
+
+    isInteger = (id, value) => {
+        if (!Number.isInteger(value)) {
+            this._addError(id, { type: 'is-integer' });
+        }
+    }
+}
+
 
 const errorKey = (key, index) => index ? `${key}.${index}` : key;
 
