@@ -5,7 +5,7 @@ import Handler from './handler/handler';
 import Grid from './Grid';
 import Validator from './handler/validator';
 import { Tab, TabGroup } from './Tab';
-import RenderUtil from '../../utils/render-util';
+import RenderUtil, { fuseId } from '../../utils/render-util';
 
 const ARRAY_ID_CONTROL = '__fuse_id';
 
@@ -20,6 +20,15 @@ class Editor extends Component {
         this.backup = controlArrays(props.value);
         this.handler = new Handler(this.backup);
         this._initChildren();
+        this.fuseId = fuseId();
+    }
+
+    componentDidMount() {
+        this.handler.validator.register(this.fuseId, () => this.value, this.props.validate);
+    }
+
+    componentWillUnmount() {
+        this.handler.validator.unregister(this.fuseId);
     }
 
     get value() {
@@ -32,8 +41,8 @@ class Editor extends Component {
 
     validate() {
         const validator = this.handler.validator;
-        this.props.validate && this.props.validate(validator, this.value);
-        console.log('errors', validator.errors);
+        validator.validate();
+        console.log('errors', mobx.toJS(validator.errors));
     }
 
     _initChildren() {

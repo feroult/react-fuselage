@@ -4,7 +4,32 @@ class Validator {
 
     constructor() {
         this.errors = mobx.observable({});
+        this.validators = {};
     }
+
+    register = (id, valueFn, validator) => {
+        this.validators[id] = { valueFn, validator };
+    }
+
+    unregister = (id) => {
+        delete this.validators[id];
+    }
+
+    validate = () => {
+        Object.values(this.validators).forEach(v => {
+            if (!v.validator) {
+                return;
+            }
+            const value = v.valueFn();
+            if (Array.isArray(value)) {
+                value.forEach(item => v.validator(item, this));
+            } else {
+                v.validator(value, this);
+            }
+        });
+    }
+
+    // validators
 
     grid = (array, fn) => {
         array.forEach((el, index) => {
@@ -14,6 +39,7 @@ class Validator {
                 .forEach(key => this.errors[errorKey(key, index)] = scoped.errors[key]);
         });
     }
+
 
     notEmpty = (key, value) => {
         if (!(value && /\S/.test(value))) {
@@ -27,9 +53,29 @@ class Validator {
         }
     }
 
+    // errors
+
     errorFn = (index) => {
         return (key) => errorKey(key, index) in this.errors;
     }
+
+    moveGridRecord = (fromIndex, toIndex) => {
+        const fromErrors = [];
+        const toErrors = []
+        const entries = Object.entries(this.errors);
+        for (const [key, error] of entries) {
+            if (key.endsWith(`.${fromIndex}`)) {
+                fromErrors.push({ key, error })
+            }
+            if (key.endsWith(`.${toIndex}`)) {
+                toErrors.push({ key, error })
+            }
+        }
+
+
+        console.log('here', fromIndex, toIndex);
+    }
+
 
 }
 

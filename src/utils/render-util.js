@@ -20,9 +20,15 @@ class RenderUtil {
                 result['other'].push(child);
             }
             return result;
-        }, {other: []});
+        }, { other: [] });
 
     }
+
 }
 
+let nextId = 0;
+const fuseId = () => `fuselage#${nextId++}`;
+
+
 export default RenderUtil;
+export { fuseId }

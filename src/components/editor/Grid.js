@@ -8,9 +8,12 @@ import * as ui from 'semantic-ui-react'
 
 import { FormattedMessage } from 'react-intl';
 
+import { fuseId } from '../../utils/render-util';
+
 import './Grid.css';
 
-const cellWrapper = (Input) => {
+const cellWrapper = (cell) => {
+    const Input = (props) => React.cloneElement(cell, props);
     const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
     return (props) => {
         const className = gridClassName(props.grid);
@@ -23,12 +26,35 @@ const cellWrapper = (Input) => {
     };
 };
 
-
 const Grid = observer(class extends Component {
 
     static contextTypes = {
         handler: PropTypes.object
     };
+
+    constructor(props) {
+        super(props);
+        this._initChildren();
+        this.fuseId = fuseId();
+    }
+
+    _initChildren() {
+        this._cols = React.Children.map(this.props.children, child => {
+            const props = child.props;
+            return { cell: child, ...props };
+        })
+    }
+
+    componentDidMount() {
+        const handler = this.context.handler;
+        handler
+            .validator
+            .register(this.fuseId, () => this.props.rows(handler.value), this.props.validate);
+    }
+
+    componentWillUnmount() {
+        this.context.handler.validator.unregister(this.fuseId);
+    }
 
     rowCount = this.props.rows.length;
 
@@ -64,6 +90,7 @@ const Grid = observer(class extends Component {
                         toIndex = this._rows.length - 1;
                     }
                     this._rows.splice(toIndex, 0, this._rows.splice(fromIndex, 1)[0]);
+                    this.context.handler.validator.moveGridRecord(fromIndex, toIndex);
                 });
             }
         } = this.props;
@@ -84,13 +111,12 @@ const Grid = observer(class extends Component {
     }
 
     renderHeader = () => {
-        const { cols } = this.props;
         return <ui.Grid.Row>
             <div className="drag" />
-            {cols.map(col =>
-                <ui.Grid.Column key={col.key} width={col.width} textAlign="center">
+            {this._cols.map(col =>
+                <ui.Grid.Column key={col.id} width={col.width} textAlign="center">
                     <ui.Label size='large' pointing='below'>
-                        <FormattedMessage id={col.key} />
+                        <FormattedMessage id={col.id} />
                     </ui.Label>
                 </ui.Grid.Column>
             )}
@@ -99,7 +125,6 @@ const Grid = observer(class extends Component {
 
     renderRows = () => {
         const {
-            cols,
             removeRecord = (index) => this._rows.splice(index, 1)
         } = this.props;
 
@@ -109,9 +134,9 @@ const Grid = observer(class extends Component {
             return (
                 <ui.Grid.Row key={i}>
                     <ui.Button icon="bars" basic className="drag" />
-                    {cols.map((col, j) => {
+                    {this._cols.map((col, j) => {
                         const grid = {
-                            rows: this._rows.length, columns: cols.length,
+                            rows: this._rows.length, columns: this._cols.length,
                             row: i, column: j
                         };
                         const Cell = cellWrapper(col.cell);
@@ -121,7 +146,7 @@ const Grid = observer(class extends Component {
                             </ui.Grid.Column>
                         );
                     })}
-                    <ui.Grid.Column key={i + '-' + cols.length} width={1}>
+                    <ui.Grid.Column key={i + '-' + this._cols.length} width={1}>
                         <ui.Button icon="trash" color="red" basic onClick={() => removeRecord(i)} />
                     </ui.Grid.Column>
                 </ui.Grid.Row>
@@ -153,7 +178,6 @@ const dragAndDropDecorator = (component, moveFn) => {
 
     let fromIndex;
     drake.on('drag', (el, target, source, sibling) => {
-        console.log('parent', el.parentElement);
         fromIndex = Array.from(el.parentElement.children).indexOf(el);
     });
 

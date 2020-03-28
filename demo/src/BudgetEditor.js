@@ -19,29 +19,29 @@ const SprintNameCell = (props) => {
 };
 
 const SprintQuantityCell = (props) => {
-    const { value: sprint, error } = props;
+    const { value: sprint } = props;
     return (
         <ui.Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = e.target.value}
             fluid
-            error={error('sprint.quantity')}
         />
     );
 };
 
 const SprintsEditor = () => {
     const rows = budget => budget.sprints;
-    const cols = [
-        { cell: SprintNameCell, key: 'sprint.name', width: 2 },
-        { cell: SprintQuantityCell, key: 'sprint.quantity', width: 1 }
-    ];
     const newRecord = () => ({ name: '', quantity: '' });
-    return <Editor.Grid
-        newRecord={newRecord}
-        rows={rows}
-        cols={cols}
-    />;
+    const validate = (sprint, { notEmpty, isInteger }) => {
+        notEmpty('sprint.name', sprint.name);
+        isInteger('sprint.quantity', sprint.quantity);
+    };
+    return (
+        <Editor.Grid rows={rows} newRecord={newRecord} validate={validate}>
+            <SprintNameCell id="sprint.name" width={2} />
+            <SprintQuantityCell id="sprint.quantity" width={1} />
+        </Editor.Grid>
+    )
 };
 
 class BudgetEditor extends Component {
@@ -58,19 +58,10 @@ class BudgetEditor extends Component {
         this.editor.validate();
     }
 
-    validateBudget = ({ grid }, budget) => {
-        grid(budget.sprints, this.validateSprint);
-    }
-
-    validateSprint = (sprint, { notEmpty, isInteger }) => {
-        notEmpty('sprint.name', sprint.name);
-        isInteger('sprint.quantity', sprint.quantity);
-    }
-
     render() {
         const budget = this.props.budget;
         return (
-            <Editor value={budget} ref={c => this.editor = c} validate={this.validateBudget}>
+            <Editor value={budget} ref={c => this.editor = c}>
                 <Editor.Tab title="tab1">
                     <SprintsEditor />
                 </Editor.Tab>
