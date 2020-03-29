@@ -142,7 +142,7 @@ const Grid = observer(class extends Component {
                         const Cell = cellWrapper(col.cell);
                         return (
                             <ui.Grid.Column key={i + '-' + j} width={col.width}>
-                                <Cell grid={grid} value={value} error={validator.errorFn(i)} />
+                                <Cell grid={grid} value={value} error={validator.errorFn(this.fuseId, i)} />
                             </ui.Grid.Column>
                         );
                     })}

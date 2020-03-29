@@ -11,17 +11,17 @@ class Validator {
         return this.state.errors;
     }
 
-    register = (id, valueFn, validate) => {
-        this.validators[id] = { valueFn, validate };
+    register = (fuseId, valueFn, validate) => {
+        this.validators[fuseId] = { valueFn, validate };
     }
 
-    unregister = (id) => {
-        delete this.validators[id];
+    unregister = (fuseId) => {
+        delete this.validators[fuseId];
     }
 
     validate = () => {
         this.state.errors = {};
-        for (const [id, { valueFn, validate }] of Object.entries(this.validators)) {
+        for (const [fuseId, { valueFn, validate }] of Object.entries(this.validators)) {
             if (!validate) {
                 continue;
             }
@@ -32,7 +32,7 @@ class Validator {
             } else {
                 validate(value, scope);
             }
-            this.state.errors[id] = scope.errors;
+            this.state.errors[fuseId] = scope.errors;
         };
     }
 
@@ -45,9 +45,14 @@ class Validator {
         });
     }
 
-    errorFn = (index) => {
-        // return (key) => errorKey(key, index) in this.errors;
-        return () => false;
+    errorFn = (fuseId, index) => {
+        return (id) => {
+            const errors = this.errors[fuseId];
+            if (!errors) {
+                return false;
+            }
+            return errors.some(e => e.id === id && e.index === index)
+        }
     }
 
     moveGridRecord = (fromIndex, toIndex) => {
@@ -88,8 +93,5 @@ class ValidateScope {
         }
     }
 }
-
-
-const errorKey = (key, index) => index ? `${key}.${index}` : key;
 
 export default Validator;

@@ -20,12 +20,13 @@ const SprintNameCell = observer((props) => {
 });
 
 const SprintQuantityCell = observer((props) => {
-    const { value: sprint } = props;
+    const { value: sprint, error } = props;
     return (
         <ui.Input
             value={sprint.quantity}
             onChange={e => sprint.quantity = parseInt(e.target.value) || e.target.value}
             fluid
+            error={error('sprint.quantity')}
         />
     );
 });
