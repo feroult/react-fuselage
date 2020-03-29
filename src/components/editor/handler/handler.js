@@ -27,6 +27,7 @@ class Handler {
         if (event.target.type === 'text') {
             this.undoRedo.stopEditing();
         }
+        this.validator.revalidate();
     };
 }
 

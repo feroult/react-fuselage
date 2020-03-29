@@ -11,26 +11,52 @@ class Validator {
         return this.state.errors;
     }
 
-    register = (fuseId, valueFn, validate) => {
+    register = (fuseId, valueFn, validateFn) => {
         if (!(fuseId in this.validators)) {
-            this.validators[fuseId] = { valueFn, validate };
+            this.validators[fuseId] = { valueFn, validateFn };
         }
     }
 
     validate = () => {
+        const scope = new ValidateScope();
+        this._scopedValidate(scope);
         this.state.errors = {};
-        for (const [fuseId, { valueFn, validate }] of Object.entries(this.validators)) {
-            if (!validate) {
+        scope.errors.forEach(({ id, info }) => {
+            this.state.errors[id] = info;
+        });
+    }
+
+    revalidate = () => {
+        const scope = new ValidateScope();
+        this._scopedValidate(scope);
+        const errors = {};
+        scope.errors.forEach(({ id, info }) => errors[id] = info);
+        for (const [id, info] of Object.entries(mobx.toJS(this.errors))) {
+            if (id in errors) {
+                if (Array.isArray(info)) {
+                    info.forEach(item => {
+                        const itemErrors = e => e.id === item.id && e.index === item.index
+                        this.errors[id] = this.errors[id].filter(e => !itemErrors(e))
+                        this.errors[id] = this.errors[id].concat(errors[id].filter(itemErrors))
+                    });
+                }
+            }
+        };
+    }
+
+    _scopedValidate = (globalScope) => {
+        for (const [fuseId, { valueFn, validateFn }] of Object.entries(this.validators)) {
+            if (!validateFn) {
                 continue;
             }
             const scope = new ValidateScope();
             const value = valueFn();
             if (Array.isArray(value)) {
-                this.validateGrid(value, validate, scope);
+                this.validateGrid(value, validateFn, scope);
             } else {
-                validate(value, scope);
+                validateFn(value, scope);
             }
-            this.state.errors[fuseId] = scope.errors;
+            globalScope.errors.push({ id: fuseId, info: scope.errors });
         };
     }
 
