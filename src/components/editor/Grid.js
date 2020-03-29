@@ -83,7 +83,7 @@ const Grid = observer(class extends Component {
                         toIndex = this._rows.length - 1;
                     }
                     this._rows.splice(toIndex, 0, this._rows.splice(fromIndex, 1)[0]);
-                    this.context.handler.validator.moveGridRecord(fromIndex, toIndex);
+                    this.context.handler.validator.moveGridRecord(this.props.fuseId, fromIndex, toIndex);
                 });
             }
         } = this.props;

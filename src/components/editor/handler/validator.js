@@ -31,7 +31,7 @@ class Validator {
         this._scopedValidate(scope);
         const errors = {};
         scope.errors.forEach(({ id, info }) => errors[id] = info);
-        for (const [id, info] of Object.entries(mobx.toJS(this.errors))) {
+        for (const [id, info] of Object.entries(this.errors)) {
             if (id in errors) {
                 if (Array.isArray(info)) {
                     info.forEach(item => {
@@ -79,19 +79,18 @@ class Validator {
         }
     }
 
-    moveGridRecord = (fromIndex, toIndex) => {
-        const fromErrors = [];
-        const toErrors = []
-        const entries = Object.entries(this.errors);
-        for (const [key, error] of entries) {
-            if (key.endsWith(`.${fromIndex}`)) {
-                fromErrors.push({ key, error })
-            }
-            if (key.endsWith(`.${toIndex}`)) {
-                toErrors.push({ key, error })
-            }
+    moveGridRecord = (fuseId, fromIndex, toIndex) => {
+        const errors = this.errors[fuseId];
+        const movedRow = errors.filter(e => e.index === fromIndex);
+        if (fromIndex < toIndex) {
+            const impactedRows = errors.filter(e => e.index > fromIndex && e.index <= toIndex);
+            impactedRows.forEach(e => e.index--);
+        } else {
+            const impactedRows = errors.filter(e => e.index < fromIndex && e.index >= toIndex);
+            impactedRows.forEach(e => e.index++);
+
         }
-        console.log('here', fromIndex, toIndex);
+        movedRow.forEach(e => e.index = toIndex)
     }
 }
 
