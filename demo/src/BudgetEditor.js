@@ -5,8 +5,9 @@ import * as ui from 'semantic-ui-react';
 import './index.css';
 
 import { connect, Editor } from "../../src/index";
+import { observer } from 'mobx-react';
 
-const SprintNameCell = (props) => {
+const SprintNameCell = observer((props) => {
     const { value: sprint, error } = props;
     return (
         <ui.Input
@@ -16,7 +17,7 @@ const SprintNameCell = (props) => {
             error={error('sprint.name')}
         />
     );
-};
+});
 
 const SprintQuantityCell = (props) => {
     const { value: sprint } = props;

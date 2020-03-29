@@ -13,14 +13,14 @@ import { fuseId } from '../../utils/render-util';
 import './Grid.css';
 
 const cellWrapper = (cell) => {
-    const Input = (props) => React.cloneElement(cell, props);
-    const WrappedInput = Input.name === 'Injector' ? Input : observer(Input);
     return (props) => {
         const className = gridClassName(props.grid);
         return (
             <div className={className}
                 onKeyDown={(e) => handleNavigation(e, className, props.grid)}>
-                <WrappedInput {...props} />
+                {
+                    React.cloneElement(cell, props)
+                }
             </div>
         );
     };
