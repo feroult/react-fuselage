@@ -12,11 +12,9 @@ class Validator {
     }
 
     register = (fuseId, valueFn, validate) => {
-        this.validators[fuseId] = { valueFn, validate };
-    }
-
-    unregister = (fuseId) => {
-        delete this.validators[fuseId];
+        if (!(fuseId in this.validators)) {
+            this.validators[fuseId] = { valueFn, validate };
+        }
     }
 
     validate = () => {

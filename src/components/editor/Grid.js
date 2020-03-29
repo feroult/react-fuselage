@@ -8,8 +8,6 @@ import * as ui from 'semantic-ui-react'
 
 import { FormattedMessage } from 'react-intl';
 
-import { fuseId } from '../../utils/render-util';
-
 import './Grid.css';
 
 const cellWrapper = (cell) => {
@@ -35,25 +33,20 @@ const Grid = observer(class extends Component {
     constructor(props) {
         super(props);
         this._initChildren();
-        this.fuseId = fuseId();
     }
 
     _initChildren() {
         this._cols = React.Children.map(this.props.children, child => {
             const props = child.props;
             return { cell: child, ...props };
-        })
+        });
     }
 
     componentDidMount() {
         const handler = this.context.handler;
         handler
             .validator
-            .register(this.fuseId, () => this.props.rows(handler.value), this.props.validate);
-    }
-
-    componentWillUnmount() {
-        this.context.handler.validator.unregister(this.fuseId);
+            .register(this.props.fuseId, () => this.props.rows(handler.value), this.props.validate);
     }
 
     rowCount = this.props.rows.length;
@@ -125,6 +118,7 @@ const Grid = observer(class extends Component {
 
     renderRows = () => {
         const {
+            fuseId,
             removeRecord = (index) => this._rows.splice(index, 1)
         } = this.props;
 
@@ -142,7 +136,7 @@ const Grid = observer(class extends Component {
                         const Cell = cellWrapper(col.cell);
                         return (
                             <ui.Grid.Column key={i + '-' + j} width={col.width}>
-                                <Cell grid={grid} value={value} error={validator.errorFn(this.fuseId, i)} />
+                                <Cell grid={grid} value={value} error={validator.errorFn(fuseId, i)} />
                             </ui.Grid.Column>
                         );
                     })}

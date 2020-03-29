@@ -31,7 +31,7 @@ const SprintQuantityCell = observer((props) => {
     );
 });
 
-const SprintsEditor = () => {
+const SprintsEditor = ({fuseId}) => {
     const rows = budget => budget.sprints;
     const newRecord = () => ({ name: '', quantity: '' });
     const validate = (sprint, { notEmpty, isInteger }) => {
@@ -40,7 +40,7 @@ const SprintsEditor = () => {
         isInteger('sprint.quantity', sprint.quantity);
     };
     return (
-        <Editor.Grid rows={rows} newRecord={newRecord} validate={validate}>
+        <Editor.Grid fuseId={fuseId} rows={rows} newRecord={newRecord} validate={validate}>
             <SprintNameCell id="sprint.name" width={2} />
             <SprintQuantityCell id="sprint.quantity" width={1} />
         </Editor.Grid>
@@ -64,12 +64,12 @@ class BudgetEditor extends Component {
     render() {
         const budget = this.props.budget;
         return (
-            <Editor value={budget} ref={c => this.editor = c}>
+            <Editor fuseId="budget" value={budget} ref={c => this.editor = c}>
                 <Editor.Tab title="tab1">
-                    <SprintsEditor />
+                    <SprintsEditor fuseId="sprints1" />
                 </Editor.Tab>
                 <Editor.Tab title="tab2">
-                    <SprintsEditor />
+                    <SprintsEditor fuseId="sprints2" />
                 </Editor.Tab>
             </Editor>
         );
