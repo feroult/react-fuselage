@@ -80,6 +80,9 @@ class ValidateScope {
     }
 
     isInteger = (id, value) => {
+        if (!value) {
+            return;
+        }
         if (!Number.isInteger(value)) {
             this._addError(id, { type: 'is-integer' });
         }

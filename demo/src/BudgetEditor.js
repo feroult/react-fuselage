@@ -19,22 +19,23 @@ const SprintNameCell = observer((props) => {
     );
 });
 
-const SprintQuantityCell = (props) => {
+const SprintQuantityCell = observer((props) => {
     const { value: sprint } = props;
     return (
         <ui.Input
             value={sprint.quantity}
-            onChange={e => sprint.quantity = e.target.value}
+            onChange={e => sprint.quantity = parseInt(e.target.value) || e.target.value}
             fluid
         />
     );
-};
+});
 
 const SprintsEditor = () => {
     const rows = budget => budget.sprints;
     const newRecord = () => ({ name: '', quantity: '' });
     const validate = (sprint, { notEmpty, isInteger }) => {
         notEmpty('sprint.name', sprint.name);
+        notEmpty('sprint.quantity', sprint.quantity);
         isInteger('sprint.quantity', sprint.quantity);
     };
     return (
