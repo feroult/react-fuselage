@@ -104,6 +104,9 @@ const Grid = observer(class extends Component {
     }
 
     renderHeader = () => {
+        if (this._rows.length === 0) {
+            return null;
+        }
         return <ui.Grid.Row>
             <div className="drag" />
             {this._cols.map(col =>
