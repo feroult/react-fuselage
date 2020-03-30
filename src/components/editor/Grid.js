@@ -119,7 +119,10 @@ const Grid = observer(class extends Component {
     renderRows = () => {
         const {
             fuseId,
-            removeRecord = (index) => this._rows.splice(index, 1)
+            removeRecord = (index) => {
+                this._rows.splice(index, 1);
+                this.context.handler.validator.removeGridRecord(this.props.fuseId, index);
+            }
         } = this.props;
 
         const { validator } = this.context.handler;

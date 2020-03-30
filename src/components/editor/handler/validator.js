@@ -95,6 +95,16 @@ class Validator {
         }
         movedRow.forEach(e => e.index = toIndex)
     }
+
+    removeGridRecord = (fuseId, index) => {
+        if (!(fuseId in this.errors)) {
+            return;
+        }
+        const errors = this.errors[fuseId].filter(e => e.index !== index);
+        const impactedRows = errors.filter(e => e.index > index);
+        impactedRows.forEach(e => e.index--);
+        this.errors[fuseId] = errors;
+    }
 }
 
 class ValidateScope {
