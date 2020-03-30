@@ -80,6 +80,9 @@ class Validator {
     }
 
     moveGridRecord = (fuseId, fromIndex, toIndex) => {
+        if (!(fuseId in this.errors)) {
+            return;
+        }
         const errors = this.errors[fuseId];
         const movedRow = errors.filter(e => e.index === fromIndex);
         if (fromIndex < toIndex) {
